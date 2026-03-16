@@ -5,8 +5,8 @@ from __future__ import annotations
 import pytest
 from fastapi.testclient import TestClient
 
-from deepflow_runtime.config import DeepFlowSettings
-from deepflow_runtime.runtime_api import create_app, extract_text
+from deep_flo_runtime.config import DeepFloSettings
+from deep_flo_runtime.runtime_api import create_app, extract_text
 from langchain_core.messages import AIMessage
 
 
@@ -23,7 +23,7 @@ def client() -> TestClient:
 @pytest.fixture
 def client_with_key() -> TestClient:
     """Test client with API key authentication enabled."""
-    return TestClient(create_app(DeepFlowSettings(api_key="test-secret")), raise_server_exceptions=False)
+    return TestClient(create_app(DeepFloSettings(api_key="test-secret")), raise_server_exceptions=False)
 
 
 # ---------------------------------------------------------------------------

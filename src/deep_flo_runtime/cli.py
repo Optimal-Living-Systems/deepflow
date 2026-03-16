@@ -1,4 +1,4 @@
-"""CLI for DeepFlow."""
+"""CLI for Deep Flo."""
 
 from __future__ import annotations
 
@@ -8,16 +8,16 @@ import json
 import typer
 import uvicorn
 
-from deepflow_runtime.acp_server import run_acp_server
-from deepflow_runtime.config import get_settings
-from deepflow_runtime.mcp_server import run_mcp_server
-from deepflow_runtime.runtime_api import InvokeRequest, RuntimeService, create_app
-from deepflow_runtime.utils.banner import print_banner
+from deep_flo_runtime.acp_server import run_acp_server
+from deep_flo_runtime.config import get_settings
+from deep_flo_runtime.mcp_server import run_mcp_server
+from deep_flo_runtime.runtime_api import InvokeRequest, RuntimeService, create_app
+from deep_flo_runtime.utils.banner import print_banner
 
 app = typer.Typer(no_args_is_help=True, add_completion=False)
 
 def main() -> None:
-    """Run the DeepFlow CLI with startup branding."""
+    """Run the Deep Flo CLI with startup branding."""
     print_banner()
     app()
 
@@ -38,7 +38,7 @@ def doctor() -> None:
 
 @app.command()
 def serve() -> None:
-    """Run the DeepFlow runtime API."""
+    """Run the Deep Flo runtime API."""
     settings = get_settings()
     uvicorn.run(
         create_app(settings),
@@ -49,13 +49,13 @@ def serve() -> None:
 
 
 @app.command()
-def run(prompt: str, thread_id: str = "deepflow-cli") -> None:
-    """Run one prompt against the DeepFlow runtime graph."""
+def run(prompt: str, thread_id: str = "deep-flo-cli") -> None:
+    """Run one prompt against the Deep Flo runtime graph."""
     asyncio.run(_run_once(prompt=prompt, thread_id=thread_id))
 
 
 @app.command()
-def chat(thread_id: str = "deepflow-chat") -> None:
+def chat(thread_id: str = "deep-flo-chat") -> None:
     """Run an interactive REPL."""
     asyncio.run(_chat_loop(thread_id=thread_id))
 
@@ -72,7 +72,7 @@ def mcp_command(
     host: str | None = typer.Option(None, help="Host for streamable-http transport."),
     port: int | None = typer.Option(None, help="Port for streamable-http transport."),
 ) -> None:
-    """Run the DeepFlow MCP server for IDE and Langflow MCP clients."""
+    """Run the Deep Flo MCP server for IDE and Langflow MCP clients."""
     settings = get_settings()
     resolved_host = host or settings.host
     resolved_port = port or 8012
@@ -94,13 +94,13 @@ async def _chat_loop(*, thread_id: str) -> None:
     settings = get_settings()
     service = RuntimeService(settings)
     await service.start()
-    typer.echo("DeepFlow chat. Type 'exit' or 'quit' to stop.")
+    typer.echo("Deep Flo chat. Type 'exit' or 'quit' to stop.")
     try:
         while True:
             prompt = typer.prompt("you")
             if prompt.strip().lower() in {"exit", "quit"}:
                 break
             response = await service.invoke(InvokeRequest(prompt=prompt, thread_id=thread_id))
-            typer.echo(f"deepflow> {response.output_text}")
+            typer.echo(f"deep-flo> {response.output_text}")
     finally:
         await service.stop()

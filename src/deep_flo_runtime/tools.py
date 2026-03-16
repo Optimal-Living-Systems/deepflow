@@ -1,4 +1,4 @@
-"""Custom tools for DeepFlow."""
+"""Custom tools for Deep Flo."""
 
 from __future__ import annotations
 
@@ -10,10 +10,10 @@ from ddgs import DDGS
 from langchain_core.tools import BaseTool, tool
 from markdownify import markdownify as html_to_markdown
 
-from deepflow_runtime.config import DeepFlowSettings
+from deep_flo_runtime.config import DeepFloSettings
 
 
-def create_runtime_tools(settings: DeepFlowSettings) -> list[BaseTool | Callable]:
+def create_runtime_tools(settings: DeepFloSettings) -> list[BaseTool | Callable]:
     """Build the custom toolset for the research runtime."""
     return [
         make_web_search_tool(settings),
@@ -21,7 +21,7 @@ def create_runtime_tools(settings: DeepFlowSettings) -> list[BaseTool | Callable
     ]
 
 
-def make_web_search_tool(settings: DeepFlowSettings) -> BaseTool:
+def make_web_search_tool(settings: DeepFloSettings) -> BaseTool:
     """Create a web search tool with Tavily and DDGS fallback."""
 
     @tool
@@ -66,7 +66,7 @@ def make_web_search_tool(settings: DeepFlowSettings) -> BaseTool:
     return web_search
 
 
-def make_fetch_url_tool(settings: DeepFlowSettings) -> BaseTool:
+def make_fetch_url_tool(settings: DeepFloSettings) -> BaseTool:
     """Create a URL fetcher that returns markdown text."""
 
     @tool

@@ -1,8 +1,8 @@
-from deepflow_runtime.config import DeepFlowSettings
+from deep_flo_runtime.config import DeepFloSettings
 
 
 def test_settings_paths_use_home_dir(tmp_path):
-    settings = DeepFlowSettings(home_dir=tmp_path)
+    settings = DeepFloSettings(home_dir=tmp_path)
 
     assert settings.workspace_dir == tmp_path / "workspace"
     assert settings.data_dir == tmp_path / "data"
@@ -21,7 +21,7 @@ def test_provider_status_reports_missing_keys(monkeypatch):
     ):
         monkeypatch.delenv(key, raising=False)
 
-    settings = DeepFlowSettings()
+    settings = DeepFloSettings()
     assert settings.provider_status() == {
         "anthropic": False,
         "openai": False,

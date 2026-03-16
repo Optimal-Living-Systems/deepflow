@@ -6,10 +6,10 @@ REPO_ROOT="$(cd -- "${SCRIPT_DIR}/.." && pwd)"
 LANGFLOW_ROOT="${LANGFLOW_ROOT:-${REPO_ROOT}/../langflow}"
 
 export LANGFLOW_COMPONENTS_PATH="${REPO_ROOT}/langflow_components"
-export DEEPFLOW_RUNTIME_URL="${DEEPFLOW_RUNTIME_URL:-http://127.0.0.1:8011}"
+export DEEP_FLO_RUNTIME_URL="${DEEP_FLO_RUNTIME_URL:-http://127.0.0.1:8011}"
 
 cd "${REPO_ROOT}"
-uv run deepflow serve &
+uv run deep-flo serve &
 runtime_pid=$!
 
 cleanup() {

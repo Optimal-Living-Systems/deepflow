@@ -3,7 +3,7 @@ requires = ["setuptools>=73.0.0", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "deepflow"
+name = "deep-flo"
 version = "0.1.0"
 description = "A structured integration layer between Langflow (visual planning) and LangChain Deep Agents (execution)"
 readme = "README.md"
@@ -45,6 +45,9 @@ runtime = [
     "fastapi>=0.115.0",
     "uvicorn>=0.34.0",
     "sse-starlette>=2.0.0",
+    "pydantic-settings>=2.0.0",
+    "python-dotenv>=1.0.0",
+    "typer>=0.9.0",
 ]
 
 # Development dependencies for the runtime
@@ -66,12 +69,13 @@ langflow-dev = [
 ]
 
 [project.scripts]
-deepflow-runtime = "deepflow_runtime.server:main"
+deep-flo = "deep_flo_runtime.cli:main"
+deep-flo-runtime = "deep_flo_runtime.server:main"
 
 [project.urls]
-Repository = "https://github.com/Optimal-Living-Systems/deepflow"
-Documentation = "https://github.com/Optimal-Living-Systems/deepflow/tree/main/docs"
-Issues = "https://github.com/Optimal-Living-Systems/deepflow/issues"
+Repository = "https://github.com/Optimal-Living-Systems/deep-flo"
+Documentation = "https://github.com/Optimal-Living-Systems/deep-flo/tree/main/docs"
+Issues = "https://github.com/Optimal-Living-Systems/deep-flo/issues"
 
 [tool.setuptools.packages.find]
 where = ["src"]
@@ -101,7 +105,6 @@ convention = "google"
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
-asyncio_mode = "auto"
 addopts = "-v --tb=short"
 
 [tool.mypy]

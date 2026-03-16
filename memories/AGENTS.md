@@ -1,6 +1,6 @@
-# DeepFlow Memory
+# Deep Flo Memory
 
-You are operating inside the DeepFlow stack.
+You are operating inside the Deep Flo stack.
 
 ## Mission
 

@@ -5,7 +5,7 @@ help: ## Show this help message
 
 # ─── Installation ─────────────────────────────────────────────
 
-install-runtime: ## Set up the DeepFlow runtime environment
+install-runtime: ## Set up the Deep Flo runtime environment
 	python3 -m venv .venv-runtime
 	. .venv-runtime/bin/activate && pip install -e ".[runtime,dev]"
 	@echo ""
@@ -35,7 +35,7 @@ test-integration: ## Run end-to-end integration tests (both services must be run
 	pytest tests/test_integration.py -v --tb=short
 
 test-cov: ## Run tests with coverage report
-	pytest tests/ -v --tb=short --cov=src/deepflow_runtime --cov=langflow_components --cov-report=term-missing
+	pytest tests/ -v --tb=short --cov=src/deep_flo_runtime --cov=langflow_components --cov-report=term-missing
 
 # ─── Code Quality ─────────────────────────────────────────────
 
@@ -46,17 +46,17 @@ format: ## Auto-format code with ruff
 	ruff format src/ langflow_components/ tests/
 
 typecheck: ## Run mypy type checker
-	mypy src/deepflow_runtime/
+	mypy src/deep_flo_runtime/
 
 check: lint typecheck test ## Run all checks (lint + type check + tests)
 
 # ─── Running Services ─────────────────────────────────────────
 
-serve: ## Start the DeepFlow runtime server
-	deepflow-runtime serve --port $${DEEPFLOW_PORT:-8100}
+serve: ## Start the Deep Flo runtime server
+	deep-flo-runtime serve --port $${DEEP_FLO_PORT:-8100}
 
 serve-dev: ## Start the runtime in development mode with auto-reload
-	uvicorn deepflow_runtime.server:app --host 0.0.0.0 --port $${DEEPFLOW_PORT:-8100} --reload
+	uvicorn deep_flo_runtime.server:app --host 0.0.0.0 --port $${DEEP_FLO_PORT:-8100} --reload
 
 docker-up: ## Start both services via Docker Compose
 	docker compose -f deploy/docker-compose.yml up
@@ -70,10 +70,10 @@ docker-build: ## Build Docker images
 # ─── Health Checks ────────────────────────────────────────────
 
 health: ## Check runtime health
-	@curl -sf http://localhost:$${DEEPFLOW_PORT:-8100}/health | python3 -m json.tool || echo "Runtime not reachable on port $${DEEPFLOW_PORT:-8100}"
+	@curl -sf http://localhost:$${DEEP_FLO_PORT:-8100}/health | python3 -m json.tool || echo "Runtime not reachable on port $${DEEP_FLO_PORT:-8100}"
 
 ready: ## Check runtime readiness
-	@curl -sf http://localhost:$${DEEPFLOW_PORT:-8100}/ready | python3 -m json.tool || echo "Runtime not ready on port $${DEEPFLOW_PORT:-8100}"
+	@curl -sf http://localhost:$${DEEP_FLO_PORT:-8100}/ready | python3 -m json.tool || echo "Runtime not ready on port $${DEEP_FLO_PORT:-8100}"
 
 # ─── Cleanup ──────────────────────────────────────────────────
 

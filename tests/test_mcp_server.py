@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import pytest
 
-from deepflow_runtime import mcp_server
+from deep_flo_runtime import mcp_server
 
 
 def test_research_prompt_includes_topic() -> None:

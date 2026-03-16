@@ -1,4 +1,4 @@
-"""MCP server for DeepFlow."""
+"""MCP server for Deep Flo."""
 
 from __future__ import annotations
 
@@ -7,17 +7,17 @@ from typing import Any
 
 from mcp.server.fastmcp import Context, FastMCP
 
-from deepflow_runtime.config import get_settings
-from deepflow_runtime.runtime_api import InvokeRequest, RuntimeService
+from deep_flo_runtime.config import get_settings
+from deep_flo_runtime.runtime_api import InvokeRequest, RuntimeService
 
 SERVER_INSTRUCTIONS = (
-    "DeepFlow MCP exposes the DeepFlow runtime as MCP tools. "
+    "Deep Flo MCP exposes the Deep Flo runtime as MCP tools. "
     "Use it for research-grade Deep Agents access from IDEs and Langflow MCP clients. "
-    "Prefer `deepflow_research` for prompt execution and `deepflow_status` for diagnostics."
+    "Prefer `deep_flo_research` for prompt execution and `deep_flo_status` for diagnostics."
 )
 
 mcp = FastMCP(
-    "DeepFlow",
+    "Deep Flo",
     instructions=SERVER_INSTRUCTIONS,
     stateless_http=True,
     json_response=True,
@@ -48,25 +48,25 @@ async def get_runtime_service() -> RuntimeService:
 
 
 @mcp.tool()
-async def deepflow_research(
+async def deep_flo_research(
     prompt: str,
-    thread_id: str = "deepflow-mcp",
+    thread_id: str = "deep-flo-mcp",
     ctx: Context | None = None,
 ) -> dict[str, Any]:
-    """Run one prompt through the DeepFlow runtime and return structured output."""
+    """Run one prompt through the Deep Flo runtime and return structured output."""
     if ctx is not None:
-        await ctx.info(f"Invoking DeepFlow on thread '{thread_id}'")
+        await ctx.info(f"Invoking Deep Flo on thread '{thread_id}'")
     service = await get_runtime_service()
     response = await service.invoke(InvokeRequest(prompt=prompt, thread_id=thread_id))
     payload = response.model_dump()
     if ctx is not None:
-        await ctx.info(f"DeepFlow completed with {payload['message_count']} messages")
+        await ctx.info(f"Deep Flo completed with {payload['message_count']} messages")
     return payload
 
 
 @mcp.tool()
-async def deepflow_status() -> dict[str, Any]:
-    """Return runtime configuration and provider status for DeepFlow."""
+async def deep_flo_status() -> dict[str, Any]:
+    """Return runtime configuration and provider status for Deep Flo."""
     settings = get_settings()
     service = await get_runtime_service()
     return {
@@ -79,10 +79,10 @@ async def deepflow_status() -> dict[str, Any]:
     }
 
 
-@mcp.resource("deepflow://health")
-async def deepflow_health_resource() -> str:
+@mcp.resource("deep-flo://health")
+async def deep_flo_health_resource() -> str:
     """Return a compact health summary for clients that browse resources."""
-    payload = await deepflow_status()
+    payload = await deep_flo_status()
     return (
         f"status={payload['status']}\n"
         f"model={payload['model']}\n"
@@ -93,7 +93,7 @@ async def deepflow_health_resource() -> str:
 
 @mcp.prompt()
 def research_prompt(topic: str) -> str:
-    """Create a DeepFlow-oriented research prompt."""
+    """Create a Deep Flo-oriented research prompt."""
     return (
         "Research the following topic and produce a concise, source-aware summary "
         f"with clear next steps: {topic}"

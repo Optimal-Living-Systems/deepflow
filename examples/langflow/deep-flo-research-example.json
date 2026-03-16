@@ -1,7 +1,7 @@
 {
-  "id": "deepflow-research-example",
-  "name": "DeepFlow Research Assistant",
-  "description": "Example flow demonstrating DeepFlow integration. Routes user messages through a DeepFlow Agent component that calls the Deep Agents runtime for multi-step research tasks with planning, sub-agents, and filesystem context.",
+  "id": "deep-flo-research-example",
+  "name": "Deep Flo Research Assistant",
+  "description": "Example flow demonstrating Deep Flo integration. Routes user messages through a Deep Flo Agent component that calls the Deep Agents runtime for multi-step research tasks with planning, sub-agents, and filesystem context.",
   "data": {
     "nodes": [
       {
@@ -22,19 +22,19 @@
         }
       },
       {
-        "id": "DeepFlowAgent-1",
+        "id": "Deep Flo Agent-1",
         "type": "CustomComponent",
         "position": { "x": 500, "y": 200 },
         "data": {
           "node": {
-            "display_name": "DeepFlow Agent",
-            "description": "Sends tasks to the DeepFlow runtime for Deep Agents execution. The runtime runs in an isolated environment with LangChain 1.x and the full Deep Agents SDK.",
+            "display_name": "Deep Flo Agent",
+            "description": "Sends tasks to the Deep Flo runtime for Deep Agents execution. The runtime runs in an isolated environment with LangChain 1.x and the full Deep Agents SDK.",
             "template": {
               "runtime_url": {
                 "type": "str",
-                "value": "http://deepflow-runtime:8100",
+                "value": "http://deep-flo-runtime:8100",
                 "display_name": "Runtime URL",
-                "info": "URL of the DeepFlow runtime server. Use http://deepflow-runtime:8100 in Docker, or http://localhost:8100 for manual setup."
+                "info": "URL of the Deep Flo runtime server. Use http://deep-flo-runtime:8100 in Docker, or http://localhost:8100 for manual setup."
               },
               "model": {
                 "type": "str",
@@ -81,7 +81,7 @@
             "template": {
               "input_value": { "type": "str", "value": "" },
               "sender": { "type": "str", "value": "AI" },
-              "sender_name": { "type": "str", "value": "DeepFlow Agent" },
+              "sender_name": { "type": "str", "value": "Deep Flo Agent" },
               "session_id": { "type": "str", "value": "" }
             }
           }
@@ -98,7 +98,7 @@
             "template": {
               "text": {
                 "type": "str",
-                "value": "This flow demonstrates the DeepFlow bridge pattern:\n\n1. User message enters via Chat Input\n2. DeepFlow Component sends it over HTTP to the DeepFlow Runtime\n3. The Runtime runs a Deep Agent with planning, sub-agents, and filesystem tools\n4. The agent's response returns through the bridge to Chat Output\n\nThe Runtime runs in a separate Python environment with LangChain 1.x and Deep Agents installed. This solves the dependency conflict with Langflow's LangChain 0.3.x requirement.\n\nFor Docker: runtime_url = http://deepflow-runtime:8100\nFor manual setup: runtime_url = http://localhost:8100"
+                "value": "This flow demonstrates the Deep Flo bridge pattern:\n\n1. User message enters via Chat Input\n2. Deep Flo Component sends it over HTTP to the Deep Flo Runtime\n3. The Runtime runs a Deep Agent with planning, sub-agents, and filesystem tools\n4. The agent's response returns through the bridge to Chat Output\n\nThe Runtime runs in a separate Python environment with LangChain 1.x and Deep Agents installed. This solves the dependency conflict with Langflow's LangChain 0.3.x requirement.\n\nFor Docker: runtime_url = http://deep-flo-runtime:8100\nFor manual setup: runtime_url = http://localhost:8100"
               }
             }
           }
@@ -109,13 +109,13 @@
       {
         "id": "edge-1",
         "source": "ChatInput-1",
-        "target": "DeepFlowAgent-1",
+        "target": "Deep Flo Agent-1",
         "sourceHandle": "output",
         "targetHandle": "input_value"
       },
       {
         "id": "edge-2",
-        "source": "DeepFlowAgent-1",
+        "source": "Deep Flo Agent-1",
         "target": "ChatOutput-1",
         "sourceHandle": "output",
         "targetHandle": "input_value"

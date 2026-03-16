@@ -1,4 +1,4 @@
-"""Async-compatible SQLite checkpointer helpers for DeepFlow."""
+"""Async-compatible SQLite checkpointer helpers for Deep Flo."""
 
 from __future__ import annotations
 
@@ -79,6 +79,6 @@ class AsyncCompatibleSqliteSaver(BaseCheckpointSaver[Any]):
 
 @contextmanager
 def open_checkpointer(path: str):
-    """Open a DeepFlow SQLite checkpointer with async compatibility."""
+    """Open a Deep Flo SQLite checkpointer with async compatibility."""
     with SqliteSaver.from_conn_string(path) as saver:
         yield AsyncCompatibleSqliteSaver(saver)

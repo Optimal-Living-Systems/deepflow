@@ -73,7 +73,7 @@ jobs:
           source .venv-runtime/bin/activate
           pytest tests/test_runtime.py -v --tb=short
         env:
-          DEEPFLOW_MODEL: "mock"
+          DEEP_FLO_MODEL: "mock"
 
   test-components:
     name: Component Tests
@@ -119,16 +119,16 @@ jobs:
           context: .
           file: deploy/Dockerfile.runtime
           push: false
-          tags: deepflow-runtime:test
+          tags: deep-flo-runtime:test
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
       - name: Verify runtime starts
         run: |
           docker run -d --name test-runtime \
-            -e DEEPFLOW_MODEL=mock \
+            -e DEEP_FLO_MODEL=mock \
             -p 8100:8100 \
-            deepflow-runtime:test
+            deep-flo-runtime:test
           
           # Wait for startup
           for i in $(seq 1 30); do

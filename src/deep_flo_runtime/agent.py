@@ -1,4 +1,4 @@
-"""Agent builders for the DeepFlow runtime and ACP server."""
+"""Agent builders for the Deep Flo runtime and ACP server."""
 
 from __future__ import annotations
 
@@ -13,12 +13,12 @@ from langchain.chat_models import init_chat_model
 from langchain_core.language_models import BaseChatModel
 from langgraph.types import Checkpointer
 
-from deepflow_runtime.config import DeepFlowSettings
-from deepflow_runtime.prompts import ACP_SYSTEM_PROMPT, MAIN_SYSTEM_PROMPT, RESEARCH_SUBAGENT_PROMPT
-from deepflow_runtime.tools import create_runtime_tools
+from deep_flo_runtime.config import DeepFloSettings
+from deep_flo_runtime.prompts import ACP_SYSTEM_PROMPT, MAIN_SYSTEM_PROMPT, RESEARCH_SUBAGENT_PROMPT
+from deep_flo_runtime.tools import create_runtime_tools
 
 
-def resolve_model(settings: DeepFlowSettings) -> BaseChatModel:
+def resolve_model(settings: DeepFloSettings) -> BaseChatModel:
     """Resolve the first available model configuration."""
     if settings.model:
         return _build_model_from_name(settings.model)
@@ -39,7 +39,7 @@ def resolve_model(settings: DeepFlowSettings) -> BaseChatModel:
 
     msg = (
         "No model provider configured. Set ANTHROPIC_API_KEY, OPENAI_API_KEY, GOOGLE_API_KEY, "
-        "OPENROUTER_API_KEY, DEEPSEEK_API_KEY, or DEEPFLOW_MODEL=ollama:<model-name> with a "
+        "OPENROUTER_API_KEY, DEEPSEEK_API_KEY, or DEEP_FLO_MODEL=ollama:<model-name> with a "
         "reachable Ollama server."
     )
     raise RuntimeError(msg)
@@ -66,7 +66,7 @@ def _build_model_from_name(model_name: str) -> BaseChatModel:
     return init_chat_model(model_name, temperature=0.0)
 
 
-def create_runtime_backend(settings: DeepFlowSettings) -> CompositeBackend:
+def create_runtime_backend(settings: DeepFloSettings) -> CompositeBackend:
     """Create the bounded filesystem backend used by the HTTP runtime."""
     return CompositeBackend(
         default=FilesystemBackend(root_dir=str(settings.workspace_dir), virtual_mode=False),
@@ -77,7 +77,7 @@ def create_runtime_backend(settings: DeepFlowSettings) -> CompositeBackend:
     )
 
 
-def build_runtime_agent(settings: DeepFlowSettings, *, checkpointer: Checkpointer) -> Any:
+def build_runtime_agent(settings: DeepFloSettings, *, checkpointer: Checkpointer) -> Any:
     """Build the research-oriented runtime agent."""
     model = resolve_model(settings)
     tools = create_runtime_tools(settings)
@@ -98,12 +98,12 @@ def build_runtime_agent(settings: DeepFlowSettings, *, checkpointer: Checkpointe
         memory=[str(settings.memory_file)],
         checkpointer=checkpointer,
         backend=create_runtime_backend(settings),
-        name="deepflow-runtime",
+        name="deep-flo-runtime",
     )
 
 
 def build_acp_agent(
-    settings: DeepFlowSettings,
+    settings: DeepFloSettings,
     *,
     project_root: Path,
     checkpointer: Checkpointer,
@@ -144,5 +144,5 @@ def build_acp_agent(
         checkpointer=checkpointer,
         backend=create_backend,
         interrupt_on=interrupt_on,
-        name="deepflow-acp",
+        name="deep-flo-acp",
     )

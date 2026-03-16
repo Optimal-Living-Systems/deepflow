@@ -1,4 +1,4 @@
-from deepflow_runtime.agent import _build_model_from_name
+from deep_flo_runtime.agent import _build_model_from_name
 
 
 def test_build_openrouter_model(monkeypatch):

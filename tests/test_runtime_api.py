@@ -4,8 +4,8 @@ import httpx
 import pytest
 from langchain_core.messages import AIMessage
 
-from deepflow_runtime.config import DeepFlowSettings
-from deepflow_runtime.runtime_api import create_app, extract_text
+from deep_flo_runtime.config import DeepFloSettings
+from deep_flo_runtime.runtime_api import create_app, extract_text
 
 
 # ---------------------------------------------------------------------------
@@ -13,7 +13,7 @@ from deepflow_runtime.runtime_api import create_app, extract_text
 # ---------------------------------------------------------------------------
 
 def _app(api_key: str | None = None):
-    return create_app(DeepFlowSettings(api_key=api_key))
+    return create_app(DeepFloSettings(api_key=api_key))
 
 
 # ---------------------------------------------------------------------------
@@ -47,7 +47,7 @@ async def test_health_returns_ok():
     async with httpx.AsyncClient(transport=transport, base_url="http://testserver") as client:
         response = await client.get("/health")
     assert response.status_code == 200
-    assert response.json()["status"] == "ok"
+    assert response.json()["status"] == "healthy"
     assert "provider_status" in response.json()
 
 
@@ -78,7 +78,7 @@ async def test_invoke_returns_503_without_model_credentials():
 
 @pytest.mark.anyio
 async def test_invoke_open_when_api_key_unset():
-    """No DEEPFLOW_API_KEY → /invoke is open, reaches the model layer."""
+    """No DEEP_FLO_API_KEY → /invoke is open, reaches the model layer."""
     transport = httpx.ASGITransport(app=_app(api_key=None))
     async with httpx.AsyncClient(transport=transport, base_url="http://testserver") as client:
         response = await client.post("/invoke", json={"prompt": "hello"})

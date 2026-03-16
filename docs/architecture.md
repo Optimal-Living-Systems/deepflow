@@ -2,10 +2,10 @@
 
 ## Goal
 
-DeepFlow exists because current `deepagents` and current Langflow do not belong in the same Python environment.
+Deep Flo exists because current `deepagents` and current Langflow do not belong in the same Python environment.
 
 - Langflow `1.8.1` is pinned around LangChain `0.3.x`
-- DeepFlow uses `deepagents 0.4.11` with LangChain `1.2.x`
+- Deep Flo uses `deepagents 0.4.11` with LangChain `1.2.x`
 
 The project keeps those worlds separate and connects them over a narrow interface.
 
@@ -16,7 +16,7 @@ Langflow UI / flows
         |
         | HTTP or MCP
         v
-DeepFlow Runtime / Bridges
+Deep Flo Runtime / Bridges
         |
         v
 Deep Agents / LangGraph graph
@@ -29,12 +29,12 @@ Deep Agents / LangGraph graph
 
 ## Components
 
-### DeepFlow Runtime
+### Deep Flo Runtime
 
 Files:
-- [src/deepflow_runtime/runtime_api.py](../src/deepflow_runtime/runtime_api.py)
-- [src/deepflow_runtime/agent.py](../src/deepflow_runtime/agent.py)
-- [src/deepflow_runtime/tools.py](../src/deepflow_runtime/tools.py)
+- [src/deep_flo_runtime/runtime_api.py](../src/deep_flo_runtime/runtime_api.py)
+- [src/deep_flo_runtime/agent.py](../src/deep_flo_runtime/agent.py)
+- [src/deep_flo_runtime/tools.py](../src/deep_flo_runtime/tools.py)
 
 Responsibilities:
 - exposes `/health`, `/invoke`, `/invoke/stream`, and `/threads/{thread_id}`
@@ -42,10 +42,10 @@ Responsibilities:
 - owns checkpoint persistence
 - constrains the HTTP runtime to a bounded workspace
 
-### DeepFlow CLI
+### Deep Flo CLI
 
 File:
-- [src/deepflow_runtime/cli.py](../src/deepflow_runtime/cli.py)
+- [src/deep_flo_runtime/cli.py](../src/deep_flo_runtime/cli.py)
 
 Responsibilities:
 - `doctor`
@@ -57,38 +57,38 @@ Responsibilities:
 ### ACP bridge
 
 File:
-- [src/deepflow_runtime/acp_server.py](../src/deepflow_runtime/acp_server.py)
+- [src/deep_flo_runtime/acp_server.py](../src/deep_flo_runtime/acp_server.py)
 
 Responsibilities:
-- exposes DeepFlow to ACP-capable editors
+- exposes Deep Flo to ACP-capable editors
 - uses a shell-backed local project workflow
 - applies human approval modes for risky operations
 
 ### Langflow bridge
 
 File:
-- [langflow_components/deepflow_runtime_component.py](../langflow_components/deepflow_runtime_component.py)
+- [langflow_components/deep_flo_runtime_component.py](../langflow_components/deep_flo_runtime_component.py)
 
 Responsibilities:
-- gives Langflow a native node for DeepFlow
+- gives Langflow a native node for Deep Flo
 - keeps Langflow out of the Deep Agents dependency graph
 - supports tool-oriented usage via `tool_mode`
 
 ### MCP bridge
 
 File:
-- [src/deepflow_runtime/mcp_server.py](../src/deepflow_runtime/mcp_server.py)
+- [src/deep_flo_runtime/mcp_server.py](../src/deep_flo_runtime/mcp_server.py)
 
 Responsibilities:
-- exposes DeepFlow as MCP tools for IDEs and Langflow `MCP Tools`
+- exposes Deep Flo as MCP tools for IDEs and Langflow `MCP Tools`
 - supports `stdio` and streamable HTTP transports
 - reuses the runtime graph and checkpoint persistence
 
 ## Persistence
 
 - LangGraph checkpoints in `data/threads.sqlite` (swappable to Postgres via `deploy/docker-compose.postgres.yml`)
-- DeepFlow memory file in `memories/AGENTS.md`
-- DeepFlow skill files in `skills/`
+- Deep Flo memory file in `memories/AGENTS.md`
+- Deep Flo skill files in `skills/`
 - Agent-created artifacts under `workspace/`
 
 ## Profiles

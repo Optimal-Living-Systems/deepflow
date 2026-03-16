@@ -2,4 +2,4 @@
 set -euo pipefail
 
 cd "$(dirname "$0")/.."
-uv run deepflow serve
+uv run deep-flo serve

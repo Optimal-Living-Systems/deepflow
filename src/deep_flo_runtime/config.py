@@ -1,4 +1,4 @@
-"""Configuration for DeepFlow."""
+"""Configuration for Deep Flo."""
 
 from __future__ import annotations
 
@@ -15,11 +15,11 @@ PROJECT_ENV_PATH = PROJECT_ROOT / ".env"
 HOME_ENV_PATH = Path.home() / ".env"
 
 
-class DeepFlowSettings(BaseSettings):
+class DeepFloSettings(BaseSettings):
     """Runtime settings loaded from environment variables."""
 
     model_config = SettingsConfigDict(
-        env_prefix="DEEPFLOW_",
+        env_prefix="DEEP_FLO_",
         env_file=(str(PROJECT_ENV_PATH), str(HOME_ENV_PATH)),
         extra="ignore",
     )
@@ -36,7 +36,7 @@ class DeepFlowSettings(BaseSettings):
     deepseek_default_model: str = "deepseek:deepseek-chat"
     ollama_default_model: str = "ollama:qwen3:latest"
     request_timeout_seconds: float = 60.0
-    user_agent: str = "DeepFlow/0.1 (+https://github.com/langchain-ai/deepagents)"
+    user_agent: str = "Deep Flo/0.1 (+https://github.com/langchain-ai/deepagents)"
 
     @property
     def workspace_dir(self) -> Path:
@@ -87,14 +87,14 @@ class DeepFlowSettings(BaseSettings):
 
 
 @lru_cache(maxsize=1)
-def get_settings() -> DeepFlowSettings:
-    """Return cached DeepFlow settings."""
+def get_settings() -> DeepFloSettings:
+    """Return cached Deep Flo settings."""
     for key, value in dotenv_values(PROJECT_ENV_PATH).items():
         if value is not None:
             os.environ.setdefault(key, value)
     for key, value in dotenv_values(HOME_ENV_PATH).items():
         if value is not None:
             os.environ.setdefault(key, value)
-    settings = DeepFlowSettings()
+    settings = DeepFloSettings()
     settings.ensure_directories()
     return settings

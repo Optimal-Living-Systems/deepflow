@@ -1,1 +1,1 @@
-"""DeepFlow custom Langflow components."""
+"""Deep Flo custom Langflow components."""

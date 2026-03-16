@@ -1,8 +1,8 @@
-# DeepFlow Documentation
+# Deep Flo Documentation
 
 > **Plan Visually, Execute Deeply**
 >
-> DeepFlow bridges Langflow (visual planning) and LangChain Deep Agents (execution)
+> Deep Flo bridges Langflow (visual planning) and LangChain Deep Agents (execution)
 > across the Python dependency boundary that prevents them sharing an environment.
 
 ---
@@ -12,7 +12,7 @@
 | Document | What it covers |
 |---|---|
 | [QUICKSTART.md](QUICKSTART.md) | Get running in under 10 minutes — Docker or manual |
-| [ARCHITECTURE.md](ARCHITECTURE.md) | Why DeepFlow exists and how the pieces fit together |
+| [ARCHITECTURE.md](ARCHITECTURE.md) | Why Deep Flo exists and how the pieces fit together |
 | [API-REFERENCE.md](API-REFERENCE.md) | Runtime HTTP API endpoints, request/response schemas |
 | [../CONTRIBUTING.md](../CONTRIBUTING.md) | Development setup, dual-venv workflow, PR process |
 
@@ -26,15 +26,15 @@ Deep Agents requires **LangChain 1.2.x**.
 These are incompatible — shared package names, different APIs, different class hierarchies.
 No import tricks can bridge them in one Python process.
 
-DeepFlow solves this by running each tool in its own environment and connecting them over HTTP.
+Deep Flo solves this by running each tool in its own environment and connecting them over HTTP.
 
 ---
 
 ## Component Map
 
 ```
-deepflow/
-├── src/deepflow_runtime/     # FastAPI bridge server (Deep Agents environment)
+deep-flo/
+├── src/deep_flo_runtime/     # FastAPI bridge server (Deep Agents environment)
 ├── langflow_components/      # Custom Langflow nodes (Langflow environment)
 ├── deploy/                   # Docker Compose and Dockerfiles
 ├── examples/langflow/        # Example Langflow flow JSON files

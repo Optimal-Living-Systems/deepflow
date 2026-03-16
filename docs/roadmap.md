@@ -1,6 +1,6 @@
 # Roadmap
 
-DeepFlow is a stable integration layer. These are the areas where it will grow.
+Deep Flo is a stable integration layer. These are the areas where it will grow.
 
 ## Near-term
 
@@ -16,13 +16,13 @@ DeepFlow is a stable integration layer. These are the areas where it will grow.
 
 ## Longer-term
 
-- **DeepFlow Hub** — shareable skills and memory profiles via a simple registry format
+- **Deep Flo Hub** — shareable skills and memory profiles via a simple registry format
 - **Observability dashboard** — structured log aggregation and LangSmith trace linking in one view
 - **Multi-runtime support** — run multiple named runtimes with different model/tool configurations from one deployment
 
 ## Won't do
 
-- Replace Deep Agents — DeepFlow is a packaging and integration layer, not an agent harness
+- Replace Deep Agents — Deep Flo is a packaging and integration layer, not an agent harness
 - Monorepo with Langflow — dependency isolation is the whole point
 
 

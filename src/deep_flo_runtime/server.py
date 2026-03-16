@@ -1,7 +1,7 @@
-"""DeepFlow Runtime server — FastAPI app and CLI entry point.
+"""Deep Flo Runtime server — FastAPI app and CLI entry point.
 
 This module exports the FastAPI ``app`` instance and the ``main()`` entry
-point used by the ``deepflow-runtime`` CLI command defined in pyproject.toml.
+point used by the ``deep-flo-runtime`` CLI command defined in pyproject.toml.
 """
 
 from __future__ import annotations
@@ -12,19 +12,19 @@ import sys
 
 import uvicorn
 
-from deepflow_runtime.runtime_api import create_app
+from deep_flo_runtime.runtime_api import create_app
 
-# Public FastAPI app — also used by uvicorn directly via ``deepflow_runtime.server:app``
+# Public FastAPI app — also used by uvicorn directly via ``deep_flo_runtime.server:app``
 app = create_app()
 
-logger = logging.getLogger("deepflow.server")
+logger = logging.getLogger("deep_flo.server")
 
 
 def main() -> None:
-    """Entry point for the ``deepflow-runtime`` CLI command."""
+    """Entry point for the ``deep-flo-runtime`` CLI command."""
     parser = argparse.ArgumentParser(
-        prog="deepflow-runtime",
-        description="DeepFlow Runtime Server — HTTP bridge for Deep Agents",
+        prog="deep-flo-runtime",
+        description="Deep Flo Runtime Server — HTTP bridge for Deep Agents",
     )
     subparsers = parser.add_subparsers(dest="command")
 
@@ -47,9 +47,9 @@ def main() -> None:
         reload = getattr(args, "reload", False)
         log_level = getattr(args, "log_level", "info")
 
-        logger.info("Starting DeepFlow runtime on %s:%d", host, port)
+        logger.info("Starting Deep Flo runtime on %s:%d", host, port)
         uvicorn.run(
-            "deepflow_runtime.server:app",
+            "deep_flo_runtime.server:app",
             host=host,
             port=port,
             reload=reload,

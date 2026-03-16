@@ -1,6 +1,6 @@
-# DeepFlow Runtime API Reference
+# Deep Flo Runtime API Reference
 
-> HTTP API exposed by the DeepFlow runtime server (`src/deepflow_runtime/`).
+> HTTP API exposed by the Deep Flo runtime server (`src/deep_flo_runtime/`).
 > Default base URL: `http://localhost:8100`
 
 ---
@@ -31,7 +31,7 @@ Execute a Deep Agent task synchronously. Blocks until the agent completes.
 | Field | Type | Required | Description |
 |-------|------|----------|-------------|
 | `message` | string | Yes | The user message / task description |
-| `config.model` | string | No | LangChain model identifier. Format: `provider:model-name`. Default: uses `DEEPFLOW_MODEL` env var |
+| `config.model` | string | No | LangChain model identifier. Format: `provider:model-name`. Default: uses `DEEP_FLO_MODEL` env var |
 | `config.system_prompt` | string | No | Custom system prompt for the agent |
 | `config.tools` | string[] | No | List of tool names to enable. Default: all configured tools |
 | `config.thread_id` | string | No | Thread ID for conversation persistence. Omit for stateless execution |
@@ -168,11 +168,11 @@ All configuration is via environment variables. Set them in `.env` (Docker) or e
 
 | Variable | Default | Description |
 |----------|---------|-------------|
-| `DEEPFLOW_PORT` | `8100` | Port for the runtime server |
-| `DEEPFLOW_MODEL` | `anthropic:claude-sonnet-4-20250514` | Default model for agent creation |
-| `DEEPFLOW_MAX_STEPS` | `50` | Default max agent loop iterations |
-| `DEEPFLOW_TIMEOUT` | `300` | Request timeout in seconds |
-| `DEEPFLOW_LOG_LEVEL` | `INFO` | Logging verbosity (DEBUG, INFO, WARNING, ERROR) |
+| `DEEP_FLO_PORT` | `8100` | Port for the runtime server |
+| `DEEP_FLO_MODEL` | `anthropic:claude-sonnet-4-20250514` | Default model for agent creation |
+| `DEEP_FLO_MAX_STEPS` | `50` | Default max agent loop iterations |
+| `DEEP_FLO_TIMEOUT` | `300` | Request timeout in seconds |
+| `DEEP_FLO_LOG_LEVEL` | `INFO` | Logging verbosity (DEBUG, INFO, WARNING, ERROR) |
 | `ANTHROPIC_API_KEY` | — | Anthropic API key |
 | `OPENAI_API_KEY` | — | OpenAI API key |
 | `GOOGLE_API_KEY` | — | Google Gemini API key |
@@ -183,9 +183,9 @@ Per-request `config` fields override environment defaults.
 
 ## Usage from Langflow
 
-The DeepFlow Langflow Component handles HTTP communication automatically. You configure it via the Langflow UI:
+The Deep Flo Langflow Component handles HTTP communication automatically. You configure it via the Langflow UI:
 
-1. Drag the **DeepFlow Agent** component into your flow
+1. Drag the **Deep Flo Agent** component into your flow
 2. Set **Runtime URL** to `http://localhost:8100` (or your deployment URL)
 3. Configure model, system prompt, and tools via the component's input fields
 4. Connect input/output edges like any other Langflow component

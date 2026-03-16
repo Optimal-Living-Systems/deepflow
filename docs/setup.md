@@ -10,7 +10,7 @@
   - `GOOGLE_API_KEY`
   - `OPENROUTER_API_KEY`
   - `DEEPSEEK_API_KEY`
-  - or a reachable Ollama server with `DEEPFLOW_MODEL=ollama:<model-name>`
+  - or a reachable Ollama server with `DEEP_FLO_MODEL=ollama:<model-name>`
 
 Optional:
 - `TAVILY_API_KEY`
@@ -19,7 +19,7 @@ Optional:
 ## Fresh install
 
 ```bash
-cd /path/to/deepflow
+cd /path/to/deep-flo
 uv sync --extra dev
 ```
 
@@ -34,30 +34,30 @@ Then edit `.env` and add your provider keys.
 The project default model is:
 
 ```env
-DEEPFLOW_MODEL=anthropic:claude-sonnet-4-6
+DEEP_FLO_MODEL=anthropic:claude-sonnet-4-6
 ```
 
 Override it per command if needed:
 
 ```bash
-DEEPFLOW_MODEL='openrouter:anthropic/claude-sonnet-4.5' uv run deepflow run "Hello"
+DEEP_FLO_MODEL='openrouter:anthropic/claude-sonnet-4.5' uv run deep-flo run "Hello"
 ```
 
 ## Core commands
 
 ```bash
-cd /path/to/deepflow
-uv run deepflow doctor
-uv run deepflow serve
-uv run deepflow run "Research LangGraph and summarize the latest changes."
-uv run deepflow chat
-uv run deepflow acp
-uv run deepflow mcp --transport stdio
+cd /path/to/deep-flo
+uv run deep-flo doctor
+uv run deep-flo serve
+uv run deep-flo run "Research LangGraph and summarize the latest changes."
+uv run deep-flo chat
+uv run deep-flo acp
+uv run deep-flo mcp --transport stdio
 ```
 
 ## Langflow integration
 
-Start Langflow with the DeepFlow component path:
+Start Langflow with the Deep Flo component path:
 
 ```bash
 ./scripts/start_langflow.sh
@@ -65,8 +65,8 @@ Start Langflow with the DeepFlow component path:
 
 This sets:
 
-- `LANGFLOW_COMPONENTS_PATH=<deepflow-root>/langflow_components`
-- `DEEPFLOW_RUNTIME_URL=http://127.0.0.1:8011`
+- `LANGFLOW_COMPONENTS_PATH=<deep-flo-root>/langflow_components`
+- `DEEP_FLO_RUNTIME_URL=http://127.0.0.1:8011`
 
 If Langflow is not checked out as a sibling directory, set:
 
@@ -81,8 +81,8 @@ export LANGFLOW_ROOT=/absolute/path/to/langflow
 ```
 
 This starts:
-- DeepFlow runtime
-- Langflow with the bundled DeepFlow component path
+- Deep Flo runtime
+- Langflow with the bundled Deep Flo component path
 
 ## PostgreSQL-backed local Langflow
 
@@ -134,8 +134,8 @@ Streamable HTTP transport:
 Optional:
 
 ```bash
-export DEEPFLOW_MCP_HOST=127.0.0.1
-export DEEPFLOW_MCP_PORT=8012
+export DEEP_FLO_MCP_HOST=127.0.0.1
+export DEEP_FLO_MCP_PORT=8012
 ```
 
 ## ACP editor setup
@@ -152,9 +152,9 @@ For Zed, start from [editor/zed-settings.example.json](../editor/zed-settings.ex
 
 ## VS Code MCP setup
 
-Open the DeepFlow repo in VS Code and use the workspace config at [.vscode/mcp.json](../.vscode/mcp.json).
+Open the Deep Flo repo in VS Code and use the workspace config at [.vscode/mcp.json](../.vscode/mcp.json).
 
-This starts DeepFlow over MCP `stdio` using:
+This starts Deep Flo over MCP `stdio` using:
 
 ```bash
 ./scripts/start_mcp_stdio.sh
@@ -162,7 +162,7 @@ This starts DeepFlow over MCP `stdio` using:
 
 ## Langflow MCP Tools setup
 
-DeepFlow can also be consumed through Langflow's `MCP Tools` path.
+Deep Flo can also be consumed through Langflow's `MCP Tools` path.
 
 Recommended server config:
 
@@ -195,7 +195,7 @@ Stop it:
 ```
 
 Files:
-- [deploy/Dockerfile.deepflow](../deploy/Dockerfile.deepflow)
+- [deploy/Dockerfile.deep-flo](../deploy/Dockerfile.deep-flo)
 - [deploy/docker-compose.postgres.yml](../deploy/docker-compose.postgres.yml)
 - [deploy/docker-compose.stack.yml](../deploy/docker-compose.stack.yml)
 - [deploy/README.md](../deploy/README.md)

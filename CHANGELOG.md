@@ -1,6 +1,6 @@
 # Changelog
 
-All notable changes to DeepFlow are documented here.
+All notable changes to Deep Flo are documented here.
 
 ## 0.1.0 (2026-03-16)
 
@@ -13,7 +13,7 @@ Initial public release.
 - **SSE streaming** — `/stream` and `/invoke/stream` return server-sent events as tokens are generated
 - **Thread history** — `GET /threads/{thread_id}` returns full conversation history
 - **Custom Langflow component** — drop-in node for Langflow visual workflows that calls the runtime over HTTP
-- **MCP server** — `deepflow_status` and `deepflow_research` tools over stdio or streamable HTTP
+- **MCP server** — `deep-flo_status` and `deep-flo_research` tools over stdio or streamable HTTP
 - **ACP editor bridge** — coding-oriented agent profile for ACP-capable editors (Zed, etc.)
 - **Docker Compose stack** — one-command setup for runtime + Langflow as sibling containers
 - **Multi-provider support** — Anthropic, OpenAI, Google, OpenRouter, DeepSeek, Ollama
@@ -23,7 +23,7 @@ Initial public release.
 
 ### Architecture
 
-DeepFlow solves a hard Python packaging constraint: Deep Agents requires LangChain 1.2.x while Langflow 1.8.x is pinned to LangChain 0.3.x. These cannot coexist in one Python interpreter. DeepFlow runs each in its own environment and connects them over HTTP.
+Deep Flo solves a hard Python packaging constraint: Deep Agents requires LangChain 1.2.x while Langflow 1.8.x is pinned to LangChain 0.3.x. These cannot coexist in one Python interpreter. Deep Flo runs each in its own environment and connects them over HTTP.
 
 > Built on [Deep Agents](https://github.com/langchain-ai/deepagents) · [LangGraph](https://github.com/langchain-ai/langgraph) · [LangSmith](https://smith.langchain.com) · [LangChain](https://github.com/langchain-ai/langchain)
 > **LangChain rules.**

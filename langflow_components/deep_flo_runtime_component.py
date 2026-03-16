@@ -1,4 +1,4 @@
-"""Langflow component that talks to the DeepFlow runtime."""
+"""Langflow component that talks to the Deep Flo runtime."""
 
 from __future__ import annotations
 
@@ -6,35 +6,35 @@ import os
 
 import httpx
 
-from lfx.custom.custom_component.component import Component
-from lfx.inputs.inputs import IntInput, MessageTextInput, StrInput
-from lfx.schema.data import Data
-from lfx.template.field.base import Output
+from langflow.custom.custom_component.component import Component
+from langflow.inputs.inputs import IntInput, MessageTextInput, StrInput
+from langflow.schema.data import Data
+from langflow.template.field.base import Output
 
 
-class DeepFlowRuntimeComponent(Component):
-    display_name = "DeepFlow Runtime"
-    description = "Call the external DeepFlow Deep Agents runtime over HTTP."
+class DeepFloRuntimeComponent(Component):
+    display_name = "Deep Flo Runtime"
+    description = "Call the external Deep Flo Deep Agents runtime over HTTP."
     icon = "Bot"
 
     inputs = [
         StrInput(
             name="runtime_url",
             display_name="Runtime URL",
-            value=os.getenv("DEEPFLOW_RUNTIME_URL", "http://127.0.0.1:8011"),
-            info="Base URL of the DeepFlow runtime.",
+            value=os.getenv("DEEP_FLO_RUNTIME_URL", "http://127.0.0.1:8011"),
+            info="Base URL of the Deep Flo runtime.",
         ),
         MessageTextInput(
             name="prompt",
             display_name="Prompt",
-            info="Prompt to send to the DeepFlow runtime.",
+            info="Prompt to send to the Deep Flo runtime.",
             tool_mode=True,
         ),
         StrInput(
             name="thread_id",
             display_name="Thread ID",
             value="langflow-thread",
-            info="Conversation thread identifier used by DeepFlow.",
+            info="Conversation thread identifier used by Deep Flo.",
             advanced=True,
         ),
         IntInput(
@@ -47,10 +47,10 @@ class DeepFlowRuntimeComponent(Component):
     ]
 
     outputs = [
-        Output(display_name="Response", name="response", method="run_deepflow"),
+        Output(display_name="Response", name="response", method="run_deep_flo"),
     ]
 
-    def run_deepflow(self) -> Data:
+    def run_deep_flo(self) -> Data:
         url = self.runtime_url.rstrip("/") + "/invoke"
         payload = {"prompt": self.prompt, "thread_id": self.thread_id}
         try:
@@ -60,12 +60,12 @@ class DeepFlowRuntimeComponent(Component):
             result = response.json()
         except httpx.HTTPStatusError as exc:
             result = {
-                "error": f"DeepFlow runtime returned {exc.response.status_code}",
+                "error": f"Deep Flo runtime returned {exc.response.status_code}",
                 "detail": exc.response.text,
             }
         except httpx.HTTPError as exc:
             result = {
-                "error": "DeepFlow runtime request failed",
+                "error": "Deep Flo runtime request failed",
                 "detail": str(exc),
             }
         data = Data(

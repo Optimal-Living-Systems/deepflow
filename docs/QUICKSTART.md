@@ -1,6 +1,6 @@
-# DeepFlow Quickstart Guide
+# Deep Flo Quickstart Guide
 
-> Get DeepFlow running in under 10 minutes.
+> Get Deep Flo running in under 10 minutes.
 
 ---
 
@@ -14,13 +14,13 @@
 
 ## Path 1: Docker Compose (Recommended)
 
-This is the fastest way to get both Langflow and the DeepFlow runtime running.
+This is the fastest way to get both Langflow and the Deep Flo runtime running.
 
 ### Step 1: Clone and configure
 
 ```bash
-git clone https://github.com/Optimal-Living-Systems/deepflow.git
-cd deepflow
+git clone https://github.com/Optimal-Living-Systems/deep_flo.git
+cd deep-flo
 cp .env.example .env
 ```
 
@@ -34,8 +34,8 @@ ANTHROPIC_API_KEY=sk-ant-...
 OPENAI_API_KEY=sk-...
 
 # Optional: customize the model
-DEEPFLOW_MODEL=anthropic:claude-sonnet-4-20250514
-DEEPFLOW_PORT=8100
+DEEP_FLO_MODEL=anthropic:claude-sonnet-4-20250514
+DEEP_FLO_PORT=8100
 ```
 
 ### Step 3: Start the stack
@@ -47,7 +47,7 @@ docker compose up
 Wait for both services to report healthy. You'll see:
 
 ```
-deepflow-runtime  | INFO:     Uvicorn running on http://0.0.0.0:8100
+deep-flo-runtime  | INFO:     Uvicorn running on http://0.0.0.0:8100
 langflow          | ╭───────────────────────────────────────────────╮
 langflow          | │ Welcome to ⛓ Langflow                        │
 langflow          | │ Access http://0.0.0.0:7860                    │
@@ -73,7 +73,7 @@ Expected response:
 
 ### Step 5: Open Langflow
 
-Navigate to `http://localhost:7860` in your browser. The DeepFlow component should be available in the component palette under **Agents**.
+Navigate to `http://localhost:7860` in your browser. The Deep Flo component should be available in the component palette under **Agents**.
 
 ---
 
@@ -84,11 +84,11 @@ Use this if you want more control or can't run Docker.
 ### Step 1: Clone
 
 ```bash
-git clone https://github.com/Optimal-Living-Systems/deepflow.git
-cd deepflow
+git clone https://github.com/Optimal-Living-Systems/deep_flo.git
+cd deep-flo
 ```
 
-### Step 2: Set up the DeepFlow Runtime (Terminal 1)
+### Step 2: Set up the Deep Flo Runtime (Terminal 1)
 
 ```bash
 # Create isolated environment for Deep Agents
@@ -102,7 +102,7 @@ pip install -e ".[runtime]"
 export ANTHROPIC_API_KEY=sk-ant-...
 
 # Start the runtime server
-deepflow-runtime serve --port 8100
+deep-flo-runtime serve --port 8100
 ```
 
 Leave this terminal running. The runtime is now listening on `http://localhost:8100`.
@@ -117,7 +117,7 @@ source .venv-langflow/bin/activate
 # Install Langflow
 pip install langflow
 
-# Install the DeepFlow custom component
+# Install the Deep Flo custom component
 cp langflow_components/*.py ~/.langflow/components/
 
 # Start Langflow
@@ -151,7 +151,7 @@ export ANTHROPIC_API_KEY=sk-ant-...
 deepagents
 ```
 
-DeepFlow is not required for this path. Use it when you want to work with Deep Agents directly in your terminal or IDE.
+Deep Flo is not required for this path. Use it when you want to work with Deep Agents directly in your terminal or IDE.
 
 ---
 
@@ -161,14 +161,14 @@ DeepFlow is not required for this path. Use it when you want to work with Deep A
 
 1. Open Langflow at `http://localhost:7860`
 2. Click **Import** (or drag and drop)
-3. Select `examples/langflow/deepflow-research-example.json`
-4. The flow loads with a DeepFlow Agent component pre-configured
+3. Select `examples/langflow/deep-flo-research-example.json`
+4. The flow loads with a Deep Flo Agent component pre-configured
 
 ### Run it
 
 1. Open the **Playground** panel
 2. Type a message: `Research the current state of mutual aid networks in the United States`
-3. The message routes through the flow to the DeepFlow component
+3. The message routes through the flow to the Deep Flo component
 4. The component calls the runtime, which creates a Deep Agent
 5. The agent plans, researches, and returns a structured response
 6. The response appears in the Playground
@@ -177,7 +177,7 @@ DeepFlow is not required for this path. Use it when you want to work with Deep A
 
 ```
 Your message
-  → Langflow routes to DeepFlow Component
+  → Langflow routes to Deep Flo Component
     → HTTP POST to localhost:8100/run
       → Deep Agent plans tasks (write_todos)
       → Deep Agent executes research steps
@@ -194,15 +194,15 @@ Response displayed
 
 ### "Connection refused" on port 8100
 
-The DeepFlow runtime isn't running. Start it first:
+The Deep Flo runtime isn't running. Start it first:
 
 ```bash
 # Docker
-docker compose up deepflow-runtime
+docker compose up deep-flo-runtime
 
 # Manual
 source .venv-runtime/bin/activate
-deepflow-runtime serve --port 8100
+deep-flo-runtime serve --port 8100
 ```
 
 ### "No API key found"
@@ -213,7 +213,7 @@ Deep Agents needs a model provider key. Set it in `.env` (Docker) or as an envir
 export ANTHROPIC_API_KEY=sk-ant-...
 ```
 
-### Langflow can't find the DeepFlow component
+### Langflow can't find the Deep Flo component
 
 Ensure the component files are in the right location:
 
@@ -230,14 +230,14 @@ langflow run
 
 ### "ModuleNotFoundError: No module named 'deepagents'"
 
-You're trying to import deepagents in Langflow's environment. This won't work — deepagents requires langchain 1.x which conflicts with Langflow. The DeepFlow runtime handles this by running deepagents in a separate environment. Make sure the runtime is running.
+You're trying to import deepagents in Langflow's environment. This won't work — deepagents requires langchain 1.x which conflicts with Langflow. The Deep Flo runtime handles this by running deepagents in a separate environment. Make sure the runtime is running.
 
 ### Port conflicts
 
 Change ports in `.env`:
 
 ```env
-DEEPFLOW_PORT=8200       # Runtime port
+DEEP_FLO_PORT=8200       # Runtime port
 LANGFLOW_PORT=7861       # Langflow port (set via langflow run --port 7861)
 ```
 

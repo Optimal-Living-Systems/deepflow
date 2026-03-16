@@ -1,4 +1,4 @@
-"""ACP server entrypoint for DeepFlow."""
+"""ACP server entrypoint for Deep Flo."""
 
 from __future__ import annotations
 
@@ -8,12 +8,12 @@ from acp import run_agent as run_acp_agent
 from acp.schema import SessionMode, SessionModeState
 from deepagents_acp.server import AgentServerACP, AgentSessionContext
 
-from deepflow_runtime.agent import build_acp_agent
-from deepflow_runtime.config import DeepFlowSettings
-from deepflow_runtime.sqlite_compat import open_checkpointer
+from deep_flo_runtime.agent import build_acp_agent
+from deep_flo_runtime.config import DeepFloSettings
+from deep_flo_runtime.sqlite_compat import open_checkpointer
 
 
-async def run_acp_server(settings: DeepFlowSettings) -> None:
+async def run_acp_server(settings: DeepFloSettings) -> None:
     """Run the ACP server with a shared SQLite checkpointer."""
     with open_checkpointer(str(settings.sqlite_path)) as checkpointer:
 

@@ -386,7 +386,7 @@
                 "list": false,
                 "show": true,
                 "multiline": true,
-                "value": "\"\"\"Langflow component that talks to the DeepFlow runtime.\"\"\"\n\nfrom __future__ import annotations\n\nimport os\n\nimport httpx\n\nfrom lfx.custom.custom_component.component import Component\nfrom lfx.inputs.inputs import IntInput, MessageTextInput, StrInput\nfrom lfx.schema.data import Data\nfrom lfx.template.field.base import Output\n\n\nclass DeepFlowRuntimeComponent(Component):\n    display_name = \"DeepFlow Runtime\"\n    description = \"Call the external DeepFlow Deep Agents runtime over HTTP.\"\n    icon = \"Bot\"\n\n    inputs = [\n        StrInput(\n            name=\"runtime_url\",\n            display_name=\"Runtime URL\",\n            value=os.getenv(\"DEEPFLOW_RUNTIME_URL\", \"http://127.0.0.1:8011\"),\n            info=\"Base URL of the DeepFlow runtime.\",\n        ),\n        MessageTextInput(\n            name=\"prompt\",\n            display_name=\"Prompt\",\n            info=\"Prompt to send to the DeepFlow runtime.\",\n            tool_mode=True,\n        ),\n        StrInput(\n            name=\"thread_id\",\n            display_name=\"Thread ID\",\n            value=\"langflow-thread\",\n            info=\"Conversation thread identifier used by DeepFlow.\",\n            advanced=True,\n        ),\n        IntInput(\n            name=\"timeout_seconds\",\n            display_name=\"Timeout Seconds\",\n            value=120,\n            info=\"HTTP timeout for the runtime call.\",\n            advanced=True,\n        ),\n    ]\n\n    outputs = [\n        Output(display_name=\"Response\", name=\"response\", method=\"run_deepflow\"),\n    ]\n\n    def run_deepflow(self) -> Data:\n        url = self.runtime_url.rstrip(\"/\") + \"/invoke\"\n        payload = {\"prompt\": self.prompt, \"thread_id\": self.thread_id}\n        try:\n            with httpx.Client(timeout=float(self.timeout_seconds)) as client:\n                response = client.post(url, json=payload)\n                response.raise_for_status()\n            result = response.json()\n        except httpx.HTTPStatusError as exc:\n            result = {\n                \"error\": f\"DeepFlow runtime returned {exc.response.status_code}\",\n                \"detail\": exc.response.text,\n            }\n        except httpx.HTTPError as exc:\n            result = {\n                \"error\": \"DeepFlow runtime request failed\",\n                \"detail\": str(exc),\n            }\n        data = Data(\n            text=result.get(\"output_text\", result.get(\"detail\", result.get(\"error\", \"\"))),\n            data=result,\n        )\n        self.status = data\n        return data\n",
+                "value": "\"\"\"Langflow component that talks to the Deep Flo runtime.\"\"\"\n\nfrom __future__ import annotations\n\nimport os\n\nimport httpx\n\nfrom lfx.custom.custom_component.component import Component\nfrom lfx.inputs.inputs import IntInput, MessageTextInput, StrInput\nfrom lfx.schema.data import Data\nfrom lfx.template.field.base import Output\n\n\nclass DeepFloRuntimeComponent(Component):\n    display_name = \"Deep Flo Runtime\"\n    description = \"Call the external Deep Flo Deep Agents runtime over HTTP.\"\n    icon = \"Bot\"\n\n    inputs = [\n        StrInput(\n            name=\"runtime_url\",\n            display_name=\"Runtime URL\",\n            value=os.getenv(\"DEEP_FLO_RUNTIME_URL\", \"http://127.0.0.1:8011\"),\n            info=\"Base URL of the Deep Flo runtime.\",\n        ),\n        MessageTextInput(\n            name=\"prompt\",\n            display_name=\"Prompt\",\n            info=\"Prompt to send to the Deep Flo runtime.\",\n            tool_mode=True,\n        ),\n        StrInput(\n            name=\"thread_id\",\n            display_name=\"Thread ID\",\n            value=\"langflow-thread\",\n            info=\"Conversation thread identifier used by Deep Flo.\",\n            advanced=True,\n        ),\n        IntInput(\n            name=\"timeout_seconds\",\n            display_name=\"Timeout Seconds\",\n            value=120,\n            info=\"HTTP timeout for the runtime call.\",\n            advanced=True,\n        ),\n    ]\n\n    outputs = [\n        Output(display_name=\"Response\", name=\"response\", method=\"run_deep-flo\"),\n    ]\n\n    def run_deep-flo(self) -> Data:\n        url = self.runtime_url.rstrip(\"/\") + \"/invoke\"\n        payload = {\"prompt\": self.prompt, \"thread_id\": self.thread_id}\n        try:\n            with httpx.Client(timeout=float(self.timeout_seconds)) as client:\n                response = client.post(url, json=payload)\n                response.raise_for_status()\n            result = response.json()\n        except httpx.HTTPStatusError as exc:\n            result = {\n                \"error\": f\"Deep Flo runtime returned {exc.response.status_code}\",\n                \"detail\": exc.response.text,\n            }\n        except httpx.HTTPError as exc:\n            result = {\n                \"error\": \"Deep Flo runtime request failed\",\n                \"detail\": str(exc),\n            }\n        data = Data(\n            text=result.get(\"output_text\", result.get(\"detail\", result.get(\"error\", \"\"))),\n            data=result,\n        )\n        self.status = data\n        return data\n",
                 "fileTypes": [],
                 "file_path": "",
                 "password": false,
@@ -416,7 +416,7 @@
                   "Message"
                 ],
                 "dynamic": false,
-                "info": "Prompt to send to the DeepFlow runtime.",
+                "info": "Prompt to send to the Deep Flo runtime.",
                 "title_case": false,
                 "track_in_telemetry": false,
                 "type": "str",
@@ -437,7 +437,7 @@
                 "display_name": "Runtime URL",
                 "advanced": false,
                 "dynamic": false,
-                "info": "Base URL of the DeepFlow runtime.",
+                "info": "Base URL of the Deep Flo runtime.",
                 "title_case": false,
                 "track_in_telemetry": false,
                 "type": "str",
@@ -454,11 +454,11 @@
                 "placeholder": "",
                 "show": true,
                 "name": "thread_id",
-                "value": "deepflow-text-bridge",
+                "value": "deep-flo-text-bridge",
                 "display_name": "Thread ID",
                 "advanced": true,
                 "dynamic": false,
-                "info": "Conversation thread identifier used by DeepFlow.",
+                "info": "Conversation thread identifier used by Deep Flo.",
                 "title_case": false,
                 "track_in_telemetry": false,
                 "type": "str",
@@ -485,12 +485,12 @@
                 "_input_type": "IntInput"
               }
             },
-            "description": "Call the external DeepFlow Deep Agents runtime over HTTP.",
+            "description": "Call the external Deep Flo Deep Agents runtime over HTTP.",
             "icon": "Bot",
             "base_classes": [
               "JSON"
             ],
-            "display_name": "DeepFlow Runtime",
+            "display_name": "Deep Flo Runtime",
             "documentation": "",
             "minimized": false,
             "custom_fields": {},
@@ -506,7 +506,7 @@
                 "selected": "JSON",
                 "name": "response",
                 "display_name": "Response",
-                "method": "run_deepflow",
+                "method": "run_deep-flo",
                 "value": "__UNDEFINED__",
                 "cache": true,
                 "allows_loop": false,
@@ -521,16 +521,16 @@
             "metadata": {},
             "tool_mode": false
           },
-          "type": "DeepFlowRuntimeComponent",
-          "id": "DeepFlowRuntimeComponent-RZUyg"
+          "type": "DeepFloRuntimeComponent",
+          "id": "DeepFloRuntimeComponent-RZUyg"
         },
-        "id": "DeepFlowRuntimeComponent-RZUyg"
+        "id": "DeepFloRuntimeComponent-RZUyg"
       }
     ],
     "edges": [
       {
         "source": "TextInputComponent-1IQOY",
-        "target": "DeepFlowRuntimeComponent-RZUyg",
+        "target": "DeepFloRuntimeComponent-RZUyg",
         "data": {
           "sourceHandle": {
             "dataType": "TextInput",
@@ -542,7 +542,7 @@
           },
           "targetHandle": {
             "fieldName": "prompt",
-            "id": "DeepFlowRuntimeComponent-RZUyg",
+            "id": "DeepFloRuntimeComponent-RZUyg",
             "inputTypes": [
               "Message"
             ],
@@ -551,12 +551,12 @@
         }
       },
       {
-        "source": "DeepFlowRuntimeComponent-RZUyg",
+        "source": "DeepFloRuntimeComponent-RZUyg",
         "target": "ChatOutput-gXnkD",
         "data": {
           "sourceHandle": {
-            "dataType": "DeepFlowRuntimeComponent",
-            "id": "DeepFlowRuntimeComponent-RZUyg",
+            "dataType": "DeepFloRuntimeComponent",
+            "id": "DeepFloRuntimeComponent-RZUyg",
             "name": "response",
             "output_types": [
               "JSON"
@@ -579,7 +579,7 @@
     ]
   },
   "is_component": false,
-  "name": "DeepFlow Text Bridge",
-  "description": "TextInput -> DeepFlow Runtime -> ChatOutput",
+  "name": "Deep Flo Text Bridge",
+  "description": "TextInput -> Deep Flo Runtime -> ChatOutput",
   "endpoint_name": "None"
 }

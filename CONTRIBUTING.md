@@ -1,6 +1,6 @@
-# Contributing to DeepFlow
+# Contributing to Deep Flo
 
-DeepFlow is an [Optimal Living Systems](https://github.com/Optimal-Living-Systems) project — a mutual aid nonprofit building open-source AI infrastructure for community benefit. We welcome contributions from developers of all levels.
+Deep Flo is an [Optimal Living Systems](https://github.com/Optimal-Living-Systems) project — a mutual aid nonprofit building open-source AI infrastructure for community benefit. We welcome contributions from developers of all levels.
 
 ---
 
@@ -8,22 +8,22 @@ DeepFlow is an [Optimal Living Systems](https://github.com/Optimal-Living-System
 
 | What | Where |
 |------|-------|
-| Report a bug | [Open an issue](https://github.com/Optimal-Living-Systems/deepflow/issues/new) |
-| Suggest a feature | [Open an issue](https://github.com/Optimal-Living-Systems/deepflow/issues/new) |
-| Ask a question | [Discussions](https://github.com/Optimal-Living-Systems/deepflow/discussions) |
+| Report a bug | [Open an issue](https://github.com/Optimal-Living-Systems/deep-flo/issues/new) |
+| Suggest a feature | [Open an issue](https://github.com/Optimal-Living-Systems/deep-flo/issues/new) |
+| Ask a question | [Discussions](https://github.com/Optimal-Living-Systems/deep-flo/discussions) |
 | Submit a fix | Fork → branch → PR (see below) |
 
 ---
 
 ## Development Setup
 
-DeepFlow requires two Python environments due to the LangChain version conflict. See [ARCHITECTURE.md](docs/ARCHITECTURE.md) for why.
+Deep Flo requires two Python environments due to the LangChain version conflict. See [ARCHITECTURE.md](docs/ARCHITECTURE.md) for why.
 
 ### 1. Clone the repository
 
 ```bash
-git clone https://github.com/Optimal-Living-Systems/deepflow.git
-cd deepflow
+git clone https://github.com/Optimal-Living-Systems/deep_flo.git
+cd deep-flo
 ```
 
 ### 2. Set up the runtime environment
@@ -71,14 +71,14 @@ make check   # Run all checks (lint + type check + tests)
 ## Project Structure
 
 ```
-deepflow/
-├── src/deepflow_runtime/     # FastAPI server wrapping Deep Agents
+deep-flo/
+├── src/deep_flo_runtime/     # FastAPI server wrapping Deep Agents
 │   ├── __init__.py
 │   ├── server.py             # FastAPI app and endpoint handlers
 │   ├── agent.py              # Deep Agent creation and management
 │   └── config.py             # Environment variable handling
 ├── langflow_components/      # Custom Langflow nodes
-│   ├── deepflow_agent.py     # Main DeepFlow Agent component
+│   ├── deep-flo_agent.py     # Main Deep Flo Agent component
 │   └── __init__.py
 ├── deploy/                   # Docker Compose and deployment configs
 │   ├── docker-compose.yml
@@ -168,7 +168,7 @@ Update architecture docs with Docker deployment diagram
 - Langflow component for Deep Agents sub-agent management
 - Memory/thread persistence across Langflow sessions
 
-Check the [issues page](https://github.com/Optimal-Living-Systems/deepflow/issues) for current priorities.
+Check the [issues page](https://github.com/Optimal-Living-Systems/deep-flo/issues) for current priorities.
 
 ---
 
@@ -184,7 +184,7 @@ Check the [issues page](https://github.com/Optimal-Living-Systems/deepflow/issue
 
 ## License
 
-By contributing to DeepFlow, you agree that your contributions will be licensed under the [Apache 2.0 License](LICENSE).
+By contributing to Deep Flo, you agree that your contributions will be licensed under the [Apache 2.0 License](LICENSE).
 
 ---
 
@@ -196,4 +196,4 @@ We follow the [Contributor Covenant](https://www.contributor-covenant.org/versio
 
 ## Questions?
 
-Open a [discussion](https://github.com/Optimal-Living-Systems/deepflow/discussions) or reach out to the Optimal Living Systems team. We're happy to help contributors get oriented.
+Open a [discussion](https://github.com/Optimal-Living-Systems/deep-flo/discussions) or reach out to the Optimal Living Systems team. We're happy to help contributors get oriented.

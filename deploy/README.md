@@ -1,6 +1,6 @@
 # Deployment
 
-DeepFlow now ships two deployment entry points.
+Deep Flo now ships two deployment entry points.
 
 ## 1. PostgreSQL for local source Langflow
 
@@ -48,8 +48,8 @@ uv pip install 'psycopg[binary]'
 Use this when you want a single Docker Compose stack for:
 
 - PostgreSQL
-- DeepFlow runtime API
-- DeepFlow MCP server
+- Deep Flo runtime API
+- Deep Flo MCP server
 - Langflow
 
 Start it:

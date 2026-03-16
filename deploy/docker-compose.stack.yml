@@ -11,32 +11,32 @@ services:
     volumes:
       - langflow-postgres-stack:/var/lib/postgresql/data
 
-  deepflow-runtime:
+  deep-flo-runtime:
     build:
       context: ..
-      dockerfile: deploy/Dockerfile.deepflow
+      dockerfile: deploy/Dockerfile.deep-flo
     restart: unless-stopped
     env_file:
       - ../.env
     environment:
-      DEEPFLOW_HOST: 0.0.0.0
-      DEEPFLOW_PORT: 8011
-      DEEPFLOW_HOME_DIR: /app
+      DEEP_FLO_HOST: 0.0.0.0
+      DEEP_FLO_PORT: 8011
+      DEEP_FLO_HOME_DIR: /app
     ports:
       - "8011:8011"
     depends_on:
       - postgres
 
-  deepflow-mcp:
+  deep-flo-mcp:
     build:
       context: ..
-      dockerfile: deploy/Dockerfile.deepflow
+      dockerfile: deploy/Dockerfile.deep-flo
     restart: unless-stopped
     env_file:
       - ../.env
-    command: ["uv", "run", "deepflow", "mcp", "--transport", "streamable-http", "--host", "0.0.0.0", "--port", "8012"]
+    command: ["uv", "run", "deep-flo", "mcp", "--transport", "streamable-http", "--host", "0.0.0.0", "--port", "8012"]
     environment:
-      DEEPFLOW_HOME_DIR: /app
+      DEEP_FLO_HOME_DIR: /app
     ports:
       - "8012:8012"
     depends_on:
@@ -50,16 +50,16 @@ services:
       - "7860:7860"
     depends_on:
       - postgres
-      - deepflow-runtime
-      - deepflow-mcp
+      - deep-flo-runtime
+      - deep-flo-mcp
     environment:
       LANGFLOW_DATABASE_URL: postgresql://langflow:langflow@postgres:5432/langflow_stack
       LANGFLOW_CONFIG_DIR: /app/langflow
-      LANGFLOW_COMPONENTS_PATH: /app/deepflow_components
-      DEEPFLOW_RUNTIME_URL: http://deepflow-runtime:8011
+      LANGFLOW_COMPONENTS_PATH: /app/deep-flo_components
+      DEEP_FLO_RUNTIME_URL: http://deep-flo-runtime:8011
     volumes:
       - langflow-data-stack:/app/langflow
-      - ../langflow_components:/app/deepflow_components:ro
+      - ../langflow_components:/app/deep-flo_components:ro
 
 volumes:
   langflow-postgres-stack:

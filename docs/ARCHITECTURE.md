@@ -1,4 +1,4 @@
-# DeepFlow Architecture
+# Deep Flo Architecture
 
 > Technical design document for contributors and evaluators.
 > Last updated: 2026-03-15
@@ -18,13 +18,13 @@
 
 ## Design Philosophy
 
-DeepFlow follows three principles:
+Deep Flo follows three principles:
 
 1. **Use each tool for its strength.** Langflow is a visual workflow designer. Deep Agents is a multi-step execution engine. Neither needs to become the other.
 
 2. **Process isolation over in-process hacks.** Python cannot host two versions of the same package in one interpreter. We don't pretend otherwise. Separate processes, separate environments, clean HTTP boundary.
 
-3. **Disappear gracefully.** When Langflow migrates to LangChain 1.x, the dependency conflict vanishes. DeepFlow is designed so that its bridge layer becomes optional without breaking anyone's workflows.
+3. **Disappear gracefully.** When Langflow migrates to LangChain 1.x, the dependency conflict vanishes. Deep Flo is designed so that its bridge layer becomes optional without breaking anyone's workflows.
 
 ---
 
@@ -71,7 +71,7 @@ LangChain 0.3.x is a maintenance branch. The LangChain team's active development
 │                    User's Machine                         │
 │                                                          │
 │  ┌────────────────────────┐  ┌────────────────────────┐  │
-│  │   Langflow Process     │  │  DeepFlow Runtime      │  │
+│  │   Langflow Process     │  │  Deep Flo Runtime      │  │
 │  │   (Python venv A)      │  │  (Python venv B)       │  │
 │  │                        │  │                        │  │
 │  │  langflow 1.8.x        │  │  deepagents 0.4.x     │  │
@@ -79,7 +79,7 @@ LangChain 0.3.x is a maintenance branch. The LangChain team's active development
 │  │  langflow-base 0.8.x   │  │  langgraph 1.x        │  │
 │  │                        │  │                        │  │
 │  │  ┌──────────────────┐  │  │  ┌──────────────────┐  │  │
-│  │  │ DeepFlow         │  │  │  │ FastAPI Server   │  │  │
+│  │  │ Deep Flo         │  │  │  │ FastAPI Server   │  │  │
 │  │  │ Langflow         │──┼──┼──│                  │  │  │
 │  │  │ Component        │  │  │  │ /run             │  │  │
 │  │  │                  │◄─┼──┼──│ /stream          │  │  │
@@ -99,7 +99,7 @@ LangChain 0.3.x is a maintenance branch. The LangChain team's active development
 │              Docker Network                  │
 │                                             │
 │  ┌──────────────┐    ┌──────────────────┐   │
-│  │  langflow     │    │  deepflow-       │   │
+│  │  langflow     │    │  deep-flo-       │   │
 │  │  container    │───▶│  runtime         │   │
 │  │              │    │  container       │   │
 │  │  Port 7860   │    │  Port 8100       │   │
@@ -116,9 +116,9 @@ LangChain 0.3.x is a maintenance branch. The LangChain team's active development
 
 ## Component Details
 
-### DeepFlow Runtime Server
+### Deep Flo Runtime Server
 
-**Location:** `src/deepflow_runtime/`
+**Location:** `src/deep_flo_runtime/`
 
 A lightweight FastAPI application that wraps the Deep Agents SDK. It runs in its own Python environment where `deepagents` and `langchain>=1.2` are installed without conflict.
 
@@ -139,9 +139,9 @@ A lightweight FastAPI application that wraps the Deep Agents SDK. It runs in its
 | `GET` | `/ready` | Returns 200 only when the agent is initialized and ready |
 
 **Configuration:** Via environment variables (see `.env.example`):
-- `DEEPFLOW_MODEL` — Model identifier (default: `anthropic:claude-sonnet-4-20250514`)
-- `DEEPFLOW_PORT` — Server port (default: `8100`)
-- `DEEPFLOW_TOOLS` — Comma-separated list of tool modules to load
+- `DEEP_FLO_MODEL` — Model identifier (default: `anthropic:claude-sonnet-4-20250514`)
+- `DEEP_FLO_PORT` — Server port (default: `8100`)
+- `DEEP_FLO_TOOLS` — Comma-separated list of tool modules to load
 - `ANTHROPIC_API_KEY`, `OPENAI_API_KEY`, etc. — Model provider credentials
 
 ### Langflow Custom Component
@@ -152,7 +152,7 @@ A Python class that integrates with Langflow's component system. It appears as a
 
 **Responsibilities:**
 - Provide UI fields for runtime URL, model selection, system prompt, and tool configuration
-- Marshal Langflow message format into DeepFlow runtime request format
+- Marshal Langflow message format into Deep Flo runtime request format
 - Handle HTTP communication with the runtime (timeouts, retries, error display)
 - Support both synchronous and streaming response modes
 - Display agent output as standard Langflow message output
@@ -179,7 +179,7 @@ Persistent agent context and memory files. Deep Agents supports AGENTS.md-based 
 
 ```
 1. User triggers flow in Langflow UI
-2. Flow reaches DeepFlow Component node
+2. Flow reaches Deep Flo Component node
 3. Component POSTs to runtime:
    {
      "message": "Research the latest changes to...",
@@ -235,10 +235,10 @@ The HTTP bridge is the standard industry pattern for dependency isolation. It's 
 
 When Langflow migrates to LangChain 1.x:
 
-1. **DeepFlow runtime becomes optional.** You could install `deepagents` directly in Langflow's environment and call `create_deep_agent()` in a native Langflow component without the HTTP bridge.
+1. **Deep Flo runtime becomes optional.** You could install `deepagents` directly in Langflow's environment and call `create_deep_agent()` in a native Langflow component without the HTTP bridge.
 
 2. **The Langflow component could be simplified** to a thin wrapper around the Deep Agents SDK instead of an HTTP client.
 
 3. **The visual planning pattern persists.** Even without the bridge, using Langflow to design workflows and Deep Agents to execute complex sub-tasks remains a valid architecture. The separation of visual design from deep execution isn't just a dependency workaround — it's a useful abstraction.
 
-DeepFlow is designed to make this transition smooth. The component's interface to the rest of Langflow doesn't change regardless of whether the backend is HTTP or direct SDK calls.
+Deep Flo is designed to make this transition smooth. The component's interface to the rest of Langflow doesn't change regardless of whether the backend is HTTP or direct SDK calls.

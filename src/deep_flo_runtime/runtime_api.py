@@ -1,4 +1,4 @@
-"""FastAPI runtime for DeepFlow."""
+"""FastAPI runtime for Deep Flo."""
 
 from __future__ import annotations
 
@@ -16,35 +16,24 @@ from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 from langchain_core.messages import AIMessage, BaseMessage
 from pydantic import BaseModel, Field
 
-from deepflow_runtime.agent import build_runtime_agent
-from deepflow_runtime.config import DeepFlowSettings, get_settings
-from deepflow_runtime.sqlite_compat import AsyncCompatibleSqliteSaver, open_checkpointer
+from deep_flo_runtime.agent import build_runtime_agent
+from deep_flo_runtime.config import DeepFloSettings, get_settings
+from deep_flo_runtime.sqlite_compat import AsyncCompatibleSqliteSaver, open_checkpointer
 
-logger = logging.getLogger("deepflow.runtime")
+logger = logging.getLogger("deep_flo.runtime")
 
 _bearer = HTTPBearer(auto_error=False)
 
 
-def require_api_key(
-    credentials: HTTPAuthorizationCredentials | None = Security(_bearer),
-    settings: DeepFlowSettings = Depends(get_settings),
-) -> None:
-    """Validate Bearer token when DEEPFLOW_API_KEY is set."""
-    if settings.api_key is None:
-        return
-    if credentials is None or credentials.credentials != settings.api_key:
-        raise HTTPException(status_code=401, detail="Invalid or missing API key.")
-
-
 class InvokeRequest(BaseModel):
-    """Invocation payload for the DeepFlow runtime."""
+    """Invocation payload for the Deep Flo runtime."""
 
     prompt: str = Field(min_length=1)
-    thread_id: str = Field(default="deepflow-default")
+    thread_id: str = Field(default="deep-flo-default")
 
 
 class InvokeResponse(BaseModel):
-    """Response payload for the DeepFlow runtime."""
+    """Response payload for the Deep Flo runtime."""
 
     thread_id: str
     output_text: str
@@ -53,9 +42,9 @@ class InvokeResponse(BaseModel):
 
 @dataclass
 class RuntimeService:
-    """Manages the lifecycle of the DeepFlow runtime graph."""
+    """Manages the lifecycle of the Deep Flo runtime graph."""
 
-    settings: DeepFlowSettings
+    settings: DeepFloSettings
     checkpointer: AsyncCompatibleSqliteSaver | None = None
     checkpointer_cm: Any | None = None
     agent: Any | None = None
@@ -69,11 +58,11 @@ class RuntimeService:
         try:
             self.agent = build_runtime_agent(self.settings, checkpointer=self.checkpointer)
             self.startup_error = None
-            logger.info("DeepFlow runtime started")
+            logger.info("Deep Flo runtime started")
         except RuntimeError as exc:
             self.agent = None
             self.startup_error = str(exc)
-            logger.warning("DeepFlow runtime started without a model: %s", exc)
+            logger.warning("Deep Flo runtime started without a model: %s", exc)
 
     async def stop(self) -> None:
         """Stop the runtime and release the database handle."""
@@ -175,10 +164,19 @@ class ThreadHistoryResponse(BaseModel):
     messages: list[ThreadMessage]
 
 
-def create_app(settings: DeepFlowSettings | None = None) -> FastAPI:
-    """Create the DeepFlow FastAPI app."""
+def create_app(settings: DeepFloSettings | None = None) -> FastAPI:
+    """Create the Deep Flo FastAPI app."""
     runtime_settings = settings or get_settings()
     service = RuntimeService(runtime_settings)
+
+    def require_api_key(
+        credentials: HTTPAuthorizationCredentials | None = Security(_bearer),
+    ) -> None:
+        """Validate Bearer token when api_key is set in this app's settings."""
+        if runtime_settings.api_key is None:
+            return
+        if credentials is None or credentials.credentials != runtime_settings.api_key:
+            raise HTTPException(status_code=401, detail="Invalid or missing API key.")
 
     @asynccontextmanager
     async def lifespan(_: FastAPI):
@@ -188,7 +186,7 @@ def create_app(settings: DeepFlowSettings | None = None) -> FastAPI:
         finally:
             await service.stop()
 
-    app = FastAPI(title="DeepFlow Runtime", version="0.1.0", lifespan=lifespan)
+    app = FastAPI(title="Deep Flo Runtime", version="0.1.0", lifespan=lifespan)
     app.state.service = service
 
     app.add_middleware(

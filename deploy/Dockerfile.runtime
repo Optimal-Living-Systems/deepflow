@@ -1,7 +1,7 @@
-# DeepFlow Runtime
+# Deep Flo Runtime
 # Isolated environment for Deep Agents (LangChain 1.x)
 #
-# This container runs the DeepFlow HTTP bridge server.
+# This container runs the Deep Flo HTTP bridge server.
 # It has its own Python environment with deepagents installed.
 # It does NOT include Langflow — that runs in a separate container.
 
@@ -13,8 +13,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && rm -rf /var/lib/apt/lists/*
 
 # Create non-root user
-RUN useradd --create-home --shell /bin/bash deepflow
-WORKDIR /home/deepflow/app
+RUN useradd --create-home --shell /bin/bash deep-flo
+WORKDIR /home/deep-flo/app
 
 # Install Python dependencies
 COPY pyproject.toml ./
@@ -27,12 +27,12 @@ COPY skills/ ./skills/
 COPY memories/ ./memories/
 
 # Own everything by the app user
-RUN chown -R deepflow:deepflow /home/deepflow
-USER deepflow
+RUN chown -R deep-flo:deep-flo /home/deep-flo
+USER deep-flo
 
 # Runtime configuration
-ENV DEEPFLOW_PORT=8100
-ENV DEEPFLOW_LOG_LEVEL=INFO
+ENV DEEP_FLO_PORT=8100
+ENV DEEP_FLO_LOG_LEVEL=INFO
 EXPOSE 8100
 
 # Health check
@@ -40,4 +40,4 @@ HEALTHCHECK --interval=15s --timeout=5s --retries=5 --start-period=30s \
     CMD curl -sf http://localhost:8100/health || exit 1
 
 # Start the runtime server
-CMD ["python", "-m", "deepflow_runtime.server", "--host", "0.0.0.0", "--port", "8100"]
+CMD ["python", "-m", "deep_flo_runtime.server", "--host", "0.0.0.0", "--port", "8100"]
