@@ -201,12 +201,18 @@ def create_app(settings: DeepFlowSettings | None = None) -> FastAPI:
     @app.get("/health")
     async def health() -> dict[str, Any]:
         return {
-            "status": "ok",
+            "status": "healthy",
+            "model": runtime_settings.model or runtime_settings.anthropic_default_model,
             "provider_status": runtime_settings.provider_status(),
-            "workspace_dir": str(runtime_settings.workspace_dir),
-            "sqlite_path": str(runtime_settings.sqlite_path),
             "startup_error": service.startup_error,
         }
+
+    @app.get("/ready")
+    async def ready() -> dict[str, Any]:
+        """Readiness probe — 503 until the agent graph is compiled."""
+        if service.agent is None:
+            raise HTTPException(status_code=503, detail="Runtime not ready.")
+        return {"ready": True}
 
     @app.post("/invoke", response_model=InvokeResponse, dependencies=[Depends(require_api_key)])
     async def invoke(request: InvokeRequest) -> InvokeResponse:
@@ -215,8 +221,28 @@ def create_app(settings: DeepFlowSettings | None = None) -> FastAPI:
         except RuntimeError as exc:
             raise HTTPException(status_code=503, detail=str(exc)) from exc
 
+    @app.post("/run", response_model=InvokeResponse, dependencies=[Depends(require_api_key)])
+    async def run(request: InvokeRequest) -> InvokeResponse:
+        """Alias for /invoke — preferred endpoint name per API reference."""
+        try:
+            return await service.invoke(request)
+        except RuntimeError as exc:
+            raise HTTPException(status_code=503, detail=str(exc)) from exc
+
     @app.post("/invoke/stream", dependencies=[Depends(require_api_key)])
     async def invoke_stream(request: InvokeRequest) -> StreamingResponse:
+        try:
+            return StreamingResponse(
+                service.stream(request),
+                media_type="text/event-stream",
+                headers={"X-Accel-Buffering": "no", "Cache-Control": "no-cache"},
+            )
+        except RuntimeError as exc:
+            raise HTTPException(status_code=503, detail=str(exc)) from exc
+
+    @app.post("/stream", dependencies=[Depends(require_api_key)])
+    async def stream_alias(request: InvokeRequest) -> StreamingResponse:
+        """Alias for /invoke/stream — preferred endpoint name per API reference."""
         try:
             return StreamingResponse(
                 service.stream(request),

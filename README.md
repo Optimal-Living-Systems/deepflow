@@ -1,5 +1,9 @@
 # DeepFlow
 
+[![CI](https://github.com/Optimal-Living-Systems/deepflow/actions/workflows/ci.yml/badge.svg)](https://github.com/Optimal-Living-Systems/deepflow/actions/workflows/ci.yml)
+[![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+[![Python 3.11+](https://img.shields.io/badge/python-3.11+-blue.svg)](https://www.python.org/downloads/)
+
 **A structured integration layer between Langflow (visual planning) and LangChain Deep Agents (execution)**
 
 Built by [Optimal Living Systems](https://github.com/Optimal-Living-Systems) · Apache 2.0
