@@ -1,4 +1,5 @@
-```text
+[2026-03-16T01:14:09.424Z] INFO tool.start toolName=Read args={}
+[2026-03-16T01:14:09.492Z] INFO tool.end toolName="Read
 ╔══════════════════════════════════════════════════════╗
 ║                                                      ║
 ║   ██████╗ ███████╗███████╗██████╗ ███████╗██╗        ║
@@ -8,14 +9,10 @@
 ║   ██████╔╝███████╗███████╗██║     ██║     ███████╗   ║
 ║   ╚═════╝ ╚══════╝╚══════╝╚═╝     ╚═╝     ╚══════╝   ║
 ║                                                      ║
-║         DeepFlow — Structured Integration Layer      ║
+║        DEEPFLOW — Structured Deep Work System        ║
 ║                                                      ║
 ╚══════════════════════════════════════════════════════╝
 ```
-
-[![CI](https://github.com/Optimal-Living-Systems/deepflow/actions/workflows/ci.yml/badge.svg)](https://github.com/Optimal-Living-Systems/deepflow/actions/workflows/ci.yml)
-[![Python 3.11+](https://img.shields.io/badge/python-3.11%2B-blue.svg)](https://www.python.org/downloads/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
 # DeepFlow
 
@@ -30,7 +27,39 @@ It exists for teams that want one Deep Agents runtime they can use from:
 
 DeepFlow does not replace Deep Agents. It packages, routes, and operationalizes them.
 
-> **Disclaimer:** DeepFlow is not a LangChain product. It is a community integration layer built entirely on top of LangChain's open-source work — [Deep Agents](https://github.com/langchain-ai/deepagents), [LangGraph](https://github.com/langchain-ai/langgraph), and [LangSmith](https://smith.langchain.com). All core agent capabilities belong to the LangChain team. **LangChain rules.**
+## What DeepFlow Is
+","numLines":30,"startLine":1,"totalLines":180}},"tool_use_id":"toolu_01LfenLsMBH4PVNoPpx9FoRu"}" durationMs=0
+[2026-03-16T01:14:10.553Z] INFO tool.start toolName=Bash args={}
+[2026-03-16T01:14:13.026Z] INFO tool.end toolName=Bash
+Optimal-Living-Systems","stderr":"","interrupted":false,"isImage":false,"noOutputExpected":false},"tool_use_id":"toolu_01Skb8eg1G9F2t4xf6Yi3vVQ"} durationMs=0
+[2026-03-16T01:14:25.444Z] INFO tool.start toolName=Edit args={}
+[2026-03-16T01:14:28.122Z] INFO tool.end toolName="Edit
+╔══════════════════════════════════════════════════════╗
+║                                                      ║
+║   ██████╗ ███████╗███████╗██████╗ ███████╗██╗        ║
+║   ██╔══██╗██╔════╝██╔════╝██╔══██╗██╔════╝██║        ║
+║   ██║  ██║█████╗  █████╗  ██████╔╝█████╗  ██║        ║
+║   ██║  ██║██╔══╝  ██╔══╝  ██╔═══╝ ██╔══╝  ██║        ║
+║   ██████╔╝███████╗███████╗██║     ██║     ███████╗   ║
+║   ╚═════╝ ╚══════╝╚══════╝╚═╝     ╚═╝     ╚══════╝   ║
+║                                                      ║
+║        DEEPFLOW — Structured Deep Work System        ║
+║                                                      ║
+╚══════════════════════════════════════════════════════╝
+```
+
+# DeepFlow
+
+DeepFlow is a structured integration layer around LangChain's Deep Agents.
+
+It exists for teams that want one Deep Agents runtime they can use from:
+
+- a project-specific runtime API
+- a project-specific CLI
+- ACP-capable editors
+- Langflow through a native custom component
+
+DeepFlow does not replace Deep Agents. It packages, routes, and operationalizes them.
 
 ## What DeepFlow Is
 
@@ -93,18 +122,16 @@ The short version:
 
 DeepFlow is built on top of LangChain's work and should be understood that way.
 
-- **Deep Agents** — the agent harness powering everything: [overview](https://docs.langchain.com/oss/python/deepagents/overview) · [GitHub](https://github.com/langchain-ai/deepagents)
-- **LangGraph** — the runtime, checkpoint, and durable execution model: [overview](https://docs.langchain.com/oss/python/langgraph/overview)
-- **LangSmith** — tracing and observability: [docs](https://docs.langchain.com/langsmith/trace-with-langchain)
-- **LangChain** — the foundation everything builds on: [GitHub](https://github.com/langchain-ai/langchain)
+- Deep Agents is a LangChain project: [Deep Agents overview](https://docs.langchain.com/oss/python/deepagents/overview)
+- Deep Agents is implemented as the `deepagents` library from LangChain: [deepagents GitHub](https://github.com/langchain-ai/deepagents)
+- LangGraph provides the runtime model Deep Agents uses for durable execution and stateful workflows: [LangGraph overview](https://docs.langchain.com/oss/python/langgraph/overview)
+- LangSmith provides tracing and observability for LangChain and LangGraph applications: [LangSmith tracing](https://docs.langchain.com/langsmith/trace-with-langchain)
 
 DeepFlow does not claim authorship of Deep Agents, LangChain, LangGraph, or LangSmith. Those belong to the LangChain team and community. DeepFlow is a packaging, orchestration, and deployment layer that makes those tools usable together in this project shape.
 
-**LangChain rules.**
-
 ## What is built
 
-- `DeepFlow Runtime`: FastAPI-based runtime with `/health`, `/invoke`, and `/invoke/stream` (SSE)
+- `DeepFlow Runtime`: FastAPI-based runtime with `/health` and `/invoke`
 - `DeepFlow CLI`: `doctor`, `serve`, `run`, `chat`, `acp`, and `mcp`
 - `DeepFlow ACP`: editor-facing ACP entrypoint
 - `DeepFlow MCP`: IDE- and Langflow-facing MCP server over `stdio` or streamable HTTP
@@ -114,40 +141,19 @@ DeepFlow does not claim authorship of Deep Agents, LangChain, LangGraph, or Lang
 ## Quick start
 
 ```bash
-git clone https://github.com/Optimal-Living-Systems/deepflow
-cd deepflow
-make demo
+cd /path/to/deepflow
+uv sync --extra dev
+cp .env.example .env
+uv run deepflow doctor
 ```
 
-`make demo` will copy `.env.example` → `.env` on first run and prompt you to add a provider key. Once `.env` has a key, re-run and the runtime starts at `http://127.0.0.1:8011`.
-
-## Runtime API
-
-```bash
-# Blocking response
-curl -s -X POST http://127.0.0.1:8011/invoke \
-  -H "Content-Type: application/json" \
-  -d '{"prompt": "What is LangGraph?", "thread_id": "demo"}' | jq .
-
-# Streaming (SSE) — tokens arrive as they are generated
-curl -N -X POST http://127.0.0.1:8011/invoke/stream \
-  -H "Content-Type: application/json" \
-  -d '{"prompt": "What is LangGraph?", "thread_id": "demo"}'
-
-# Conversation history
-curl http://127.0.0.1:8011/threads/demo | jq .
-
-# Provider status
-curl http://127.0.0.1:8011/health | jq .
-```
-
-Set `DEEPFLOW_API_KEY` in `.env` to require `Authorization: Bearer <key>` on all endpoints except `/health`. Leave it unset for local dev.
+Then add your model provider keys to `.env`.
 
 ## Main commands
 
 ```bash
 uv run deepflow serve
-uv run deepflow run "Research the latest LangGraph release notes."
+uv run deepflow run \"Research the latest LangGraph release notes.\"
 uv run deepflow chat
 uv run deepflow acp
 uv run deepflow mcp --transport stdio
@@ -206,17 +212,34 @@ ACP support is included as an optional editor-facing path. The primary validated
 - If `TAVILY_API_KEY` is missing, DeepFlow falls back to DuckDuckGo search via `ddgs`.
 - The HTTP runtime is intentionally research-first and does not expose shell execution.
 - The ACP profile is where local shell-backed coding workflows belong.
+","structuredPatch":[{"oldStart":8,"oldLines":7,"newStart":8,"newLines":7,"lines":[" ║   ██████╔╝███████╗███████╗██║     ██║     ███████╗   ║"," ║   ╚═════╝ ╚══════╝╚══════╝╚═╝     ╚═╝     ╚══════╝   ║"," ║                                                      ║","-║        DEEPFLOW — Structured Deep Work System        ║","+║         DeepFlow — Structured Integration Layer      ║"," ║                                                      ║"," ╚══════════════════════════════════════════════════════╝"," ```"]}],"userModified":false,"replaceAll":false},"tool_use_id":"toolu_01JSfMARMXj4H8NGYzMS3Ku8"}" durationMs=0
+[2026-03-16T01:14:31.586Z] INFO tool.start toolName="Bash
+fix: correct ASCII art branding to DeepFlow — Structured Integration Layer
 
----
+Co-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>
+EOF
+)\" && git push","description":"Commit and push README branding fix"},"tool_use_id":"toolu_015js8crFt8uQqdLiK4eTyiJ"}" args={}
+[2026-03-16T01:14:35.969Z] INFO tool.start toolName="Bash
+fix: correct ASCII art branding to DeepFlow — Structured Integration Layer
 
-```text
-╔══════════════════════════════════════════════════════════════════╗
-║                                                                  ║
-║      Built on Deep Agents · LangGraph · LangSmith · LangChain   ║
-║                                                                  ║
-║                    ★   LANGCHAIN RULES   ★                       ║
-║                                                                  ║
-╚══════════════════════════════════════════════════════════════════╝
-```
+Co-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>
+EOF
+)\"","description":"Commit README branding fix"},"tool_use_id":"toolu_01B26SsuJy2Fq3TaJfx1sduV"}" args={}
+[2026-03-16T01:14:37.833Z] INFO tool.end toolName="Bash
+fix: correct ASCII art branding to DeepFlow — Structured Integration Layer
 
-*Built with [Claude Sonnet 4.6](https://www.anthropic.com) and Codex 5.4. All agent capabilities powered by [LangChain](https://github.com/langchain-ai).*
+Co-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>
+EOF
+)\"","description":"Commit README branding fix"},"tool_response":{"stdout":"[main 2e992d2] fix: correct ASCII art branding to DeepFlow — Structured Integration Layer
+ 1 file changed, 1 insertion(+), 1 deletion(-)","stderr":"","interrupted":false,"isImage":false,"noOutputExpected":false},"tool_use_id":"toolu_01B26SsuJy2Fq3TaJfx1sduV"}" durationMs=0
+[2026-03-16T01:14:40.371Z] INFO tool.start toolName=Bash args={}
+[2026-03-16T01:14:42.650Z] INFO tool.end toolName=Bash durationMs=-14397725
+[2026-03-16T01:14:42.644Z] INFO tool.end toolName=Bash durationMs=0
+[2026-03-16T01:14:47.048Z] INFO tool.start toolName=Bash args={}
+[2026-03-16T01:14:53.175Z] INFO tool.start toolName=Bash args={}
+[2026-03-16T01:14:54.184Z] INFO tool.end toolName=Bash durationMs=0
+[2026-03-16T01:14:54.190Z] INFO tool.end toolName=Bash durationMs=-14398988
+[2026-03-16T01:14:57.411Z] INFO tool.start toolName=Bash args={}
+[2026-03-16T01:14:58.152Z] INFO tool.end toolName="Bash
+origin	https://github.com/Optimal-Living-Systems/deepflow.git (push)","stderr":"","interrupted":false,"isImage":false,"noOutputExpected":false},"tool_use_id":"toolu_014d7DPPU1WhZNfAu8xCsasx"}" durationMs=0
+[2026-03-16T01:15:14.642Z] INFO session.end agentName=orchestrator

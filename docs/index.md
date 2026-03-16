@@ -8,7 +8,7 @@
 ║   ██████╔╝███████╗███████╗██║     ██║     ███████╗   ║
 ║   ╚═════╝ ╚══════╝╚══════╝╚═╝     ╚═╝     ╚══════╝   ║
 ║                                                      ║
-║        DEEPFLOW — Structured Deep Work System        ║
+║         DeepFlow — Structured Integration Layer      ║
 ║                                                      ║
 ╚══════════════════════════════════════════════════════╝
 ```
@@ -63,6 +63,8 @@ DeepFlow builds directly on LangChain projects and gives them full credit.
 
 DeepFlow should be read as a project-specific wrapper around those systems, not as a replacement for them.
 
+> **Disclaimer:** DeepFlow is not a LangChain product. It is a community integration layer built entirely on top of LangChain's open-source work. All core agent capabilities — Deep Agents, LangGraph, and LangSmith — belong to the LangChain team. DeepFlow adds packaging, routing, and operations around their work, and nothing more.
+
 ## Documentation Map
 
 - [Why DeepFlow](why-deepflow.md)
@@ -72,3 +74,17 @@ DeepFlow should be read as a project-specific wrapper around those systems, not 
 - [Workflows](workflows.md)
 - [Status](status.md)
 - [Roadmap](roadmap.md)
+
+---
+
+```text
+╔══════════════════════════════════════════════════════════════════╗
+║                                                                  ║
+║      Built on Deep Agents · LangGraph · LangSmith · LangChain   ║
+║                                                                  ║
+║                    ★   LANGCHAIN RULES   ★                       ║
+║                                                                  ║
+╚══════════════════════════════════════════════════════════════════╝
+```
+
+*Built with [Claude Sonnet 4.6](https://www.anthropic.com) and Codex 5.4. All agent capabilities powered by [LangChain](https://github.com/langchain-ai).*

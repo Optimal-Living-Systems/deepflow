@@ -64,3 +64,18 @@ The validated paths are:
 ## Current blockers
 
 - the supplied Google project is quota-blocked for `gemini-2.5-pro`
+
+
+---
+
+```text
+╔══════════════════════════════════════════════════════════════════╗
+║                                                                  ║
+║      Built on Deep Agents · LangGraph · LangSmith · LangChain   ║
+║                                                                  ║
+║                    ★   LANGCHAIN RULES   ★                       ║
+║                                                                  ║
+╚══════════════════════════════════════════════════════════════════╝
+```
+
+*Built with [Claude Sonnet 4.6](https://www.anthropic.com) and Codex 5.4. All agent capabilities powered by [LangChain](https://github.com/langchain-ai).*

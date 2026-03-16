@@ -55,3 +55,18 @@ uv run pytest
 ## Known environment-specific caveat
 
 Direct localhost verification required running the runtime outside the default sandbox restrictions. That is an environment limitation, not a DeepFlow design requirement.
+
+
+---
+
+```text
+╔══════════════════════════════════════════════════════════════════╗
+║                                                                  ║
+║      Built on Deep Agents · LangGraph · LangSmith · LangChain   ║
+║                                                                  ║
+║                    ★   LANGCHAIN RULES   ★                       ║
+║                                                                  ║
+╚══════════════════════════════════════════════════════════════════╝
+```
+
+*Built with [Claude Sonnet 4.6](https://www.anthropic.com) and Codex 5.4. All agent capabilities powered by [LangChain](https://github.com/langchain-ai).*

@@ -37,7 +37,7 @@ Files:
 - [src/deepflow_runtime/tools.py](../src/deepflow_runtime/tools.py)
 
 Responsibilities:
-- exposes `/health` and `/invoke`
+- exposes `/health`, `/invoke`, `/invoke/stream`, and `/threads/{thread_id}`
 - creates the Deep Agents graph
 - owns checkpoint persistence
 - constrains the HTTP runtime to a bounded workspace
@@ -86,16 +86,10 @@ Responsibilities:
 
 ## Persistence
 
-Current persistence:
-- LangGraph checkpoints in `data/threads.sqlite`
+- LangGraph checkpoints in `data/threads.sqlite` (swappable to Postgres via `deploy/docker-compose.postgres.yml`)
 - DeepFlow memory file in `memories/AGENTS.md`
 - DeepFlow skill files in `skills/`
-- agent-created artifacts under `workspace/`
-
-Current limits:
-- Langflow itself is still on its current local DB setup
-- Postgres is not wired yet
-- live MCP client validation is not complete yet
+- Agent-created artifacts under `workspace/`
 
 ## Profiles
 
@@ -110,3 +104,18 @@ Current limits:
 - local shell backend
 - user approval modes
 - intended for coding/editor workflows
+
+
+---
+
+```text
+╔══════════════════════════════════════════════════════════════════╗
+║                                                                  ║
+║      Built on Deep Agents · LangGraph · LangSmith · LangChain   ║
+║                                                                  ║
+║                    ★   LANGCHAIN RULES   ★                       ║
+║                                                                  ║
+╚══════════════════════════════════════════════════════════════════╝
+```
+
+*Built with [Claude Sonnet 4.6](https://www.anthropic.com) and Codex 5.4. All agent capabilities powered by [LangChain](https://github.com/langchain-ai).*

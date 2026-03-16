@@ -33,3 +33,18 @@ uv run deepflow doctor
 - MCP wrapper around DeepFlow
 - PostgreSQL-backed Langflow deployment
 - Dockerized full-stack workflow
+
+
+---
+
+```text
+╔══════════════════════════════════════════════════════════════════╗
+║                                                                  ║
+║      Built on Deep Agents · LangGraph · LangSmith · LangChain   ║
+║                                                                  ║
+║                    ★   LANGCHAIN RULES   ★                       ║
+║                                                                  ║
+╚══════════════════════════════════════════════════════════════════╝
+```
+
+*Built with [Claude Sonnet 4.6](https://www.anthropic.com) and Codex 5.4. All agent capabilities powered by [LangChain](https://github.com/langchain-ai).*

@@ -1,0 +1,2 @@
+{"timestamp":"2026-03-16T01:03:31.711Z","level":"info","event":"tool.end","agentName":"orchestrator","data":{"toolName":"Bash","durationMs":0}}
+{"timestamp":"2026-03-16T01:03:41.510Z","level":"info","event":"session.end","agentName":"orchestrator","data":{"agentName":"orchestrator"}}

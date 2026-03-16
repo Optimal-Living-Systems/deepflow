@@ -3,12 +3,14 @@
 from __future__ import annotations
 
 import json
+import logging
 from collections.abc import AsyncGenerator
 from contextlib import asynccontextmanager
 from dataclasses import dataclass
 from typing import Any
 
 from fastapi import Depends, FastAPI, HTTPException, Security
+from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import StreamingResponse
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 from langchain_core.messages import AIMessage, BaseMessage
@@ -17,6 +19,8 @@ from pydantic import BaseModel, Field
 from deepflow_runtime.agent import build_runtime_agent
 from deepflow_runtime.config import DeepFlowSettings, get_settings
 from deepflow_runtime.sqlite_compat import AsyncCompatibleSqliteSaver, open_checkpointer
+
+logger = logging.getLogger("deepflow.runtime")
 
 _bearer = HTTPBearer(auto_error=False)
 
@@ -65,9 +69,11 @@ class RuntimeService:
         try:
             self.agent = build_runtime_agent(self.settings, checkpointer=self.checkpointer)
             self.startup_error = None
+            logger.info("DeepFlow runtime started")
         except RuntimeError as exc:
             self.agent = None
             self.startup_error = str(exc)
+            logger.warning("DeepFlow runtime started without a model: %s", exc)
 
     async def stop(self) -> None:
         """Stop the runtime and release the database handle."""
@@ -90,16 +96,19 @@ class RuntimeService:
     async def invoke(self, request: InvokeRequest) -> InvokeResponse:
         """Run the graph for one user request."""
         agent = self._get_agent()
+        logger.info("invoke thread_id=%s prompt_len=%d", request.thread_id, len(request.prompt))
         result = await agent.ainvoke(
             {"messages": [("user", request.prompt)]},
             config={"configurable": {"thread_id": request.thread_id}},
         )
         messages = result.get("messages", [])
-        return InvokeResponse(
+        response = InvokeResponse(
             thread_id=request.thread_id,
             output_text=extract_text(messages),
             message_count=len(messages),
         )
+        logger.info("invoke complete thread_id=%s message_count=%d", request.thread_id, response.message_count)
+        return response
 
     async def stream(self, request: InvokeRequest) -> AsyncGenerator[str, None]:
         """Stream token chunks as SSE for one user request."""
@@ -152,6 +161,20 @@ def _message_to_text(message: BaseMessage) -> str:
     return str(content)
 
 
+class ThreadMessage(BaseModel):
+    """A single message in a thread's history."""
+
+    role: str
+    content: str
+
+
+class ThreadHistoryResponse(BaseModel):
+    """Conversation history for a thread."""
+
+    thread_id: str
+    messages: list[ThreadMessage]
+
+
 def create_app(settings: DeepFlowSettings | None = None) -> FastAPI:
     """Create the DeepFlow FastAPI app."""
     runtime_settings = settings or get_settings()
@@ -167,6 +190,13 @@ def create_app(settings: DeepFlowSettings | None = None) -> FastAPI:
 
     app = FastAPI(title="DeepFlow Runtime", version="0.1.0", lifespan=lifespan)
     app.state.service = service
+
+    app.add_middleware(
+        CORSMiddleware,
+        allow_origins=["*"],
+        allow_methods=["GET", "POST"],
+        allow_headers=["Authorization", "Content-Type"],
+    )
 
     @app.get("/health")
     async def health() -> dict[str, Any]:
@@ -195,5 +225,27 @@ def create_app(settings: DeepFlowSettings | None = None) -> FastAPI:
             )
         except RuntimeError as exc:
             raise HTTPException(status_code=503, detail=str(exc)) from exc
+
+    @app.get(
+        "/threads/{thread_id}",
+        response_model=ThreadHistoryResponse,
+        dependencies=[Depends(require_api_key)],
+    )
+    async def get_thread(thread_id: str) -> ThreadHistoryResponse:
+        """Return the full message history for a thread."""
+        if service.checkpointer is None:
+            raise HTTPException(status_code=503, detail="Runtime not started.")
+        config = {"configurable": {"thread_id": thread_id}}
+        checkpoint = service.checkpointer.get(config)
+        if checkpoint is None:
+            raise HTTPException(status_code=404, detail=f"Thread '{thread_id}' not found.")
+        raw_messages = checkpoint.get("channel_values", {}).get("messages", [])
+        messages = []
+        for msg in raw_messages:
+            role = getattr(msg, "type", "unknown")
+            content = _message_to_text(msg) if isinstance(msg, BaseMessage) else str(msg)
+            messages.append(ThreadMessage(role=role, content=content))
+        logger.info("thread history thread_id=%s message_count=%d", thread_id, len(messages))
+        return ThreadHistoryResponse(thread_id=thread_id, messages=messages)
 
     return app

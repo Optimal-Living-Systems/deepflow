@@ -62,3 +62,18 @@ DeepFlow is built on top of LangChain projects and gives them full credit.
 - LangSmith tracing: <https://docs.langchain.com/langsmith/trace-with-langchain>
 
 DeepFlow should be understood as a project-level wrapper and integration layer around those systems.
+
+
+---
+
+```text
+╔══════════════════════════════════════════════════════════════════╗
+║                                                                  ║
+║      Built on Deep Agents · LangGraph · LangSmith · LangChain   ║
+║                                                                  ║
+║                    ★   LANGCHAIN RULES   ★                       ║
+║                                                                  ║
+╚══════════════════════════════════════════════════════════════════╝
+```
+
+*Built with [Claude Sonnet 4.6](https://www.anthropic.com) and Codex 5.4. All agent capabilities powered by [LangChain](https://github.com/langchain-ai).*

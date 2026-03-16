@@ -199,3 +199,18 @@ Files:
 - [deploy/docker-compose.postgres.yml](../deploy/docker-compose.postgres.yml)
 - [deploy/docker-compose.stack.yml](../deploy/docker-compose.stack.yml)
 - [deploy/README.md](../deploy/README.md)
+
+
+---
+
+```text
+╔══════════════════════════════════════════════════════════════════╗
+║                                                                  ║
+║      Built on Deep Agents · LangGraph · LangSmith · LangChain   ║
+║                                                                  ║
+║                    ★   LANGCHAIN RULES   ★                       ║
+║                                                                  ║
+╚══════════════════════════════════════════════════════════════════╝
+```
+
+*Built with [Claude Sonnet 4.6](https://www.anthropic.com) and Codex 5.4. All agent capabilities powered by [LangChain](https://github.com/langchain-ai).*
