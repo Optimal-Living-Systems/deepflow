@@ -6,3 +6,11 @@ __pycache__/
 *.pyc
 data/
 workspace/
+# Research output directories — track structure but not content
+research-output/*
+!research-output/.gitkeep
+research-data/*
+!research-data/.gitkeep
+!research-data/extractions/
+research-data/extractions/*
+!research-data/extractions/.gitkeep

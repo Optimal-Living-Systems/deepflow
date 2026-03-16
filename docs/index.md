@@ -75,6 +75,10 @@ Deep Flo should be read as a project-specific wrapper around those systems, not 
 - [Status](status.md)
 - [Roadmap](roadmap.md)
 
+## Planning
+
+- [Research Pipeline Build Plan](planning/research-pipeline-build-plan.md) — 22-change OpenSpec roadmap for the OLS Sociology Research System
+
 ---
 
 ```text
