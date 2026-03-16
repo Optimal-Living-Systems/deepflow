@@ -1,24 +1,43 @@
-FROM python:3.11-slim
+# DeepFlow Runtime
+# Isolated environment for Deep Agents (LangChain 1.x)
+#
+# This container runs the DeepFlow HTTP bridge server.
+# It has its own Python environment with deepagents installed.
+# It does NOT include Langflow — that runs in a separate container.
 
-# Runtime environment — Deep Agents + LangChain 1.x
-# DO NOT mix with Langflow; they have incompatible LangChain versions.
+FROM python:3.11-slim AS base
 
-ENV PYTHONUNBUFFERED=1
+# System dependencies
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    curl \
+    && rm -rf /var/lib/apt/lists/*
+
+# Create non-root user
+RUN useradd --create-home --shell /bin/bash deepflow
+WORKDIR /home/deepflow/app
+
+# Install Python dependencies
+COPY pyproject.toml ./
+RUN pip install --no-cache-dir uv && \
+    uv pip install --system -e ".[runtime]"
+
+# Copy application code
+COPY src/ ./src/
+COPY skills/ ./skills/
+COPY memories/ ./memories/
+
+# Own everything by the app user
+RUN chown -R deepflow:deepflow /home/deepflow
+USER deepflow
+
+# Runtime configuration
 ENV DEEPFLOW_PORT=8100
+ENV DEEPFLOW_LOG_LEVEL=INFO
+EXPOSE 8100
 
-WORKDIR /app
+# Health check
+HEALTHCHECK --interval=15s --timeout=5s --retries=5 --start-period=30s \
+    CMD curl -sf http://localhost:8100/health || exit 1
 
-COPY pyproject.toml README.md ./
-COPY src ./src
-COPY memories ./memories
-COPY skills ./skills
-
-# Install runtime dependencies only (no langflow, no dev tools)
-RUN pip install --no-cache-dir -e ".[runtime]"
-
-EXPOSE ${DEEPFLOW_PORT}
-
-HEALTHCHECK --interval=10s --timeout=5s --start-period=15s --retries=3 \
-    CMD curl -f http://localhost:${DEEPFLOW_PORT}/health || exit 1
-
-CMD ["sh", "-c", "deepflow-runtime serve --host 0.0.0.0 --port ${DEEPFLOW_PORT}"]
+# Start the runtime server
+CMD ["python", "-m", "deepflow_runtime.server", "--host", "0.0.0.0", "--port", "8100"]

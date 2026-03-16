@@ -1,0 +1,69 @@
+services:
+  # ─── DeepFlow Runtime ──────────────────────────────────────
+  # Runs Deep Agents in an isolated environment with LangChain 1.x
+  deepflow-runtime:
+    build:
+      context: ..
+      dockerfile: deploy/Dockerfile.runtime
+    container_name: deepflow-runtime
+    ports:
+      - "${DEEPFLOW_PORT:-8100}:8100"
+    environment:
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY:-}
+      - OPENAI_API_KEY=${OPENAI_API_KEY:-}
+      - GOOGLE_API_KEY=${GOOGLE_API_KEY:-}
+      - DEEPFLOW_MODEL=${DEEPFLOW_MODEL:-anthropic:claude-sonnet-4-20250514}
+      - DEEPFLOW_PORT=8100
+      - DEEPFLOW_MAX_STEPS=${DEEPFLOW_MAX_STEPS:-50}
+      - DEEPFLOW_TIMEOUT=${DEEPFLOW_TIMEOUT:-300}
+      - DEEPFLOW_LOG_LEVEL=${DEEPFLOW_LOG_LEVEL:-INFO}
+      - LANGSMITH_TRACING=${LANGSMITH_TRACING:-false}
+      - LANGSMITH_API_KEY=${LANGSMITH_API_KEY:-}
+      - LANGSMITH_PROJECT=${LANGSMITH_PROJECT:-deepflow}
+    healthcheck:
+      test: ["CMD", "curl", "-sf", "http://localhost:8100/health"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+    restart: unless-stopped
+    networks:
+      - deepflow-net
+
+  # ─── Langflow ──────────────────────────────────────────────
+  # Visual workflow designer — connects to runtime over HTTP
+  langflow:
+    image: langflowai/langflow:latest
+    container_name: deepflow-langflow
+    ports:
+      - "${LANGFLOW_PORT:-7860}:7860"
+    environment:
+      - LANGFLOW_AUTO_LOGIN=true
+      - LANGFLOW_REMOVE_API_KEYS=false
+      - LANGFLOW_COMPONENTS_PATH=/app/custom_components
+    volumes:
+      # Mount custom DeepFlow component into Langflow
+      - ../langflow_components:/app/custom_components:ro
+      # Mount example flows for easy import
+      - ../examples/langflow:/app/flows:ro
+      # Persist Langflow data across restarts
+      - langflow-data:/app/langflow
+    depends_on:
+      deepflow-runtime:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-sf", "http://localhost:7860/health"]
+      interval: 15s
+      timeout: 5s
+      retries: 10
+      start_period: 60s
+    restart: unless-stopped
+    networks:
+      - deepflow-net
+
+volumes:
+  langflow-data:
+
+networks:
+  deepflow-net:
+    driver: bridge
