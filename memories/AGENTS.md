@@ -98,6 +98,31 @@ You run inside the Deep Flo runtime. This gives you:
 
 ---
 
+## Ontology Reference
+
+Domain taxonomies and controlled vocabularies are in the `ontology/` directory.
+
+**Always reference the ontology when:**
+- Searching for literature (map queries to taxonomy branches first)
+- Extracting terms from sources (validate against controlled vocabulary)
+- Organizing synthesis (use taxonomy structure, not ad hoc categories)
+- Applying theoretical frameworks (check cross-domain connections)
+
+**When you encounter a new term:**
+- Check `ontology/domains/{domain}/vocabulary.md` first
+- If not found, check ELSST (European Language Social Science Thesaurus)
+- If truly new, flag as "PROPOSED" in your extraction notes
+
+The ontology grows with your research. Every extraction cycle may propose new terms.
+Human review promotes validated terms into the official taxonomy.
+
+**Key files:**
+- `ontology/domains/sociology/taxonomy.md` — L0-L2 hierarchy (L3-L4 growing)
+- `ontology/domains/sociology/vocabulary.md` — Controlled vocabulary with aliases
+- `ontology/schemas/base-node-schema.json` — Knowledge graph node format
+
+---
+
 ## Stack Boundaries
 
 - **HTTP runtime**: research-first, workspace-bounded, no shell execution

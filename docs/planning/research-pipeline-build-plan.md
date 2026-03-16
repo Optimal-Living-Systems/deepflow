@@ -49,25 +49,26 @@ openspec/changes/
 ├── 001-research-agent-identity/          # AGENTS.md + base config
 ├── 002-literature-search-skill/          # First skill: OpenAlex + Semantic Scholar
 ├── 003-source-extraction-skill/          # Deep reading + structured extraction
-├── 004-methodology-evaluation-skill/     # Quality assessment
-├── 005-thematic-synthesis-skill/         # Cross-source pattern finding
-├── 006-academic-writing-skill/           # Journal-quality reports
-├── 007-accessible-translation-skill/     # Plain language for communities
-├── 008-fact-check-skill/                 # Verification against sources
-├── 009-sub-agent-definitions/            # 6 specialist sub-agents
-├── 010-research-dossier-orchestrator/    # Full pipeline skill
-├── 011-openalex-mcp-server/             # MCP tool: academic paper search
-├── 012-lancedb-mcp-server/              # MCP tool: RAG retrieval + ingestion
-├── 013-lancedb-ingestion-pipeline/      # Agent outputs → vector DB
-├── 014-kestra-weekly-automation/         # Scheduled research cycles
-├── 015-training-data-extraction/         # Agent outputs → fine-tune dataset
-├── 016-sdt-analysis-skill/              # Self-Determination Theory lens
-├── 017-mutual-aid-lens-skill/           # Cooperative economics lens
-├── 018-news-monitor-skill/              # Current events tracking
-├── 019-media-production-skill/          # Blog, social, newsletter outputs
-├── 020-ovnn-scoring-skill/              # OVNN advisory scoring
-├── 021-local-model-integration/         # Swap bulk sub-agents to Qwen 14B
-├── 022-training-pipeline-automation/    # Kestra flow for model fine-tuning
+├── 004-ontology-integration/             # OLS DKA as taxonomy + vocab reference layer ✓
+├── 005-methodology-evaluation-skill/     # Quality assessment
+├── 006-thematic-synthesis-skill/         # Cross-source pattern finding
+├── 007-academic-writing-skill/           # Journal-quality reports
+├── 008-accessible-translation-skill/     # Plain language for communities
+├── 009-fact-check-skill/                 # Verification against sources
+├── 010-sub-agent-definitions/            # 6 specialist sub-agents
+├── 011-research-dossier-orchestrator/    # Full pipeline skill
+├── 012-openalex-mcp-server/             # MCP tool: academic paper search
+├── 013-lancedb-mcp-server/              # MCP tool: RAG retrieval + ingestion
+├── 014-lancedb-ingestion-pipeline/      # Agent outputs → vector DB
+├── 015-kestra-weekly-automation/         # Scheduled research cycles
+├── 016-training-data-extraction/         # Agent outputs → fine-tune dataset
+├── 017-sdt-analysis-skill/              # Self-Determination Theory lens
+├── 018-mutual-aid-lens-skill/           # Cooperative economics lens
+├── 019-news-monitor-skill/              # Current events tracking
+├── 020-media-production-skill/          # Blog, social, newsletter outputs
+├── 021-ovnn-scoring-skill/              # OVNN advisory scoring
+├── 022-local-model-integration/         # Swap bulk sub-agents to Qwen 14B
+├── 023-training-pipeline-automation/    # Kestra flow for model fine-tuning
 ```
 
 Each one is a self-contained, spec-governed, reviewable unit of work.

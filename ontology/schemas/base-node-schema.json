@@ -1,0 +1,100 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "OLS Knowledge Graph Node",
+  "description": "Schema for knowledge graph entries produced by DeepFlo research agents. Based on OLS Domain Knowledge Architecture spec.",
+  "type": "object",
+  "required": ["node_id", "term", "domain", "level", "definition_short"],
+  "properties": {
+    "node_id": {
+      "type": "string",
+      "description": "Unique identifier: domain.L1.L2.L3.term_slug",
+      "pattern": "^[a-z][a-z0-9_.-]+$"
+    },
+    "term": {
+      "type": "string",
+      "description": "Canonical term name"
+    },
+    "aliases": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Synonyms, alternate spellings, abbreviations"
+    },
+    "domain": {
+      "type": "string",
+      "enum": ["sociology", "psychology", "environmentalism", "neuroscience", "computer-science", "data-ai-engineering"]
+    },
+    "level": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 4,
+      "description": "Taxonomy level: 0=domain, 1=branch, 2=subfield, 3=concept, 4=specific term"
+    },
+    "parent_id": {
+      "type": ["string", "null"],
+      "description": "Parent node in taxonomy hierarchy"
+    },
+    "definition_short": {
+      "type": "string",
+      "description": "One-sentence plain-language definition"
+    },
+    "definition_academic": {
+      "type": ["string", "null"],
+      "description": "Formal academic definition with citation"
+    },
+    "definition_genus_differentia": {
+      "type": ["string", "null"],
+      "description": "Genus-differentia form: 'A [term] is a [genus] that [differentia]'"
+    },
+    "related_to": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Related node IDs (non-hierarchical)"
+    },
+    "contrast_with": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Contrasting/opposing concepts"
+    },
+    "prerequisite_of": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Concepts that require understanding this one first"
+    },
+    "part_of": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Larger concepts this is a component of"
+    },
+    "theoretical_tradition": {
+      "type": ["string", "null"],
+      "description": "Primary theoretical tradition (functionalism, conflict theory, symbolic interactionism, etc.)"
+    },
+    "key_thinkers": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Major scholars associated with this concept"
+    },
+    "elsst_match": {
+      "type": ["string", "null"],
+      "description": "Matching ELSST thesaurus term if exists"
+    },
+    "source": {
+      "type": ["string", "null"],
+      "description": "Where this node was first extracted from"
+    },
+    "confidence": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1,
+      "description": "Confidence in this node's accuracy (0-1)"
+    },
+    "created_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "created_by": {
+      "type": "string",
+      "description": "Agent or human that created this node"
+    }
+  }
+}
