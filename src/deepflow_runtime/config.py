@@ -27,6 +27,7 @@ class DeepFlowSettings(BaseSettings):
     home_dir: Path = Field(default=PROJECT_ROOT)
     host: str = "127.0.0.1"
     port: int = 8011
+    api_key: str | None = None
     model: str | None = None
     anthropic_default_model: str = "anthropic:claude-sonnet-4-6"
     openai_default_model: str = "openai:gpt-4.1"

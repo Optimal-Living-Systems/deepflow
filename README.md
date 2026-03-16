@@ -96,7 +96,7 @@ DeepFlow does not claim authorship of Deep Agents, LangChain, LangGraph, or Lang
 
 ## What is built
 
-- `DeepFlow Runtime`: FastAPI-based runtime with `/health` and `/invoke`
+- `DeepFlow Runtime`: FastAPI-based runtime with `/health`, `/invoke`, and `/invoke/stream` (SSE)
 - `DeepFlow CLI`: `doctor`, `serve`, `run`, `chat`, `acp`, and `mcp`
 - `DeepFlow ACP`: editor-facing ACP entrypoint
 - `DeepFlow MCP`: IDE- and Langflow-facing MCP server over `stdio` or streamable HTTP
@@ -106,13 +106,31 @@ DeepFlow does not claim authorship of Deep Agents, LangChain, LangGraph, or Lang
 ## Quick start
 
 ```bash
-cd /path/to/deepflow
-uv sync --extra dev
-cp .env.example .env
-uv run deepflow doctor
+git clone https://github.com/Optimal-Living-Systems/deepflow
+cd deepflow
+make demo
 ```
 
-Then add your model provider keys to `.env`.
+`make demo` will copy `.env.example` → `.env` on first run and prompt you to add a provider key. Once `.env` has a key, re-run and the runtime starts at `http://127.0.0.1:8011`.
+
+## Runtime API
+
+```bash
+# Blocking response
+curl -s -X POST http://127.0.0.1:8011/invoke \
+  -H "Content-Type: application/json" \
+  -d '{"prompt": "What is LangGraph?", "thread_id": "demo"}' | jq .
+
+# Streaming (SSE)
+curl -N -X POST http://127.0.0.1:8011/invoke/stream \
+  -H "Content-Type: application/json" \
+  -d '{"prompt": "What is LangGraph?", "thread_id": "demo"}'
+
+# Provider status
+curl http://127.0.0.1:8011/health | jq .
+```
+
+Set `DEEPFLOW_API_KEY` in `.env` to require `Authorization: Bearer <key>` on `/invoke` and `/invoke/stream`. Leave it unset for local dev.
 
 ## Main commands
 
