@@ -8,9 +8,7 @@ import json
 import typer
 import uvicorn
 
-from deep_flo_runtime.acp_server import run_acp_server
 from deep_flo_runtime.config import get_settings
-from deep_flo_runtime.mcp_server import run_mcp_server
 from deep_flo_runtime.runtime_api import InvokeRequest, RuntimeService, create_app
 from deep_flo_runtime.utils.banner import print_banner
 
@@ -63,6 +61,8 @@ def chat(thread_id: str = "deep-flo-chat") -> None:
 @app.command()
 def acp() -> None:
     """Run the ACP server for ACP-capable editors."""
+    from deep_flo_runtime.acp_server import run_acp_server
+
     asyncio.run(run_acp_server(get_settings()))
 
 
@@ -73,6 +73,8 @@ def mcp_command(
     port: int | None = typer.Option(None, help="Port for streamable-http transport."),
 ) -> None:
     """Run the Deep Flo MCP server for IDE and Langflow MCP clients."""
+    from deep_flo_runtime.mcp_server import run_mcp_server
+
     settings = get_settings()
     resolved_host = host or settings.host
     resolved_port = port or 8012

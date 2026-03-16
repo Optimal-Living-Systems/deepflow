@@ -48,6 +48,10 @@ runtime = [
     "pydantic-settings>=2.0.0",
     "python-dotenv>=1.0.0",
     "typer>=0.9.0",
+    "ddgs>=7.0.0",
+    "markdownify>=0.13.0",
+    "langgraph-checkpoint-sqlite>=2.0.0",
+    "mcp[cli]>=1.0.0",
 ]
 
 # Development dependencies for the runtime
@@ -70,6 +74,7 @@ langflow-dev = [
 
 [project.scripts]
 deep-flo = "deep_flo_runtime.cli:main"
+deepflo = "deep_flo_runtime.cli:main"
 deep-flo-runtime = "deep_flo_runtime.server:main"
 
 [project.urls]
