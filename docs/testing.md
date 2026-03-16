@@ -35,7 +35,7 @@ uv run pytest
 - MCP tool call `deepflow_research` returning `MCP_OK`: passed
 - Langflow MCP utility test discovering and invoking DeepFlow tools: passed
 - `docker compose config` validation for Postgres-only and full-stack files: passed
-- portable config path behavior after removing hardcoded `/home/joel/...` defaults: passed
+- portable config path behavior after removing hardcoded absolute path defaults: passed
 - local Langflow database initialization against PostgreSQL: passed
 - full Docker stack startup: passed
 - containerized Langflow HTTP endpoint returning `200`: passed
